@@ -9,6 +9,7 @@ export const basicDetailsSchema = z.object({
   city: requiredStringSchema,
   state: requiredStringSchema,
   type: z.nativeEnum(RentType),
+  stamp: requiredStringSchema,
 });
 
 export type BasicDetailsSchema = z.infer<typeof basicDetailsSchema>;
