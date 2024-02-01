@@ -15,6 +15,7 @@ export type FormInputs = {
   state: string;
   city: string;
   type: RentType;
+  stamp: "₹ 100";
 };
 
 export type FormData = FormInputs & {
@@ -28,6 +29,7 @@ const useFormData = create<FormData>((set) => ({
   phoneNo: "",
   state: "",
   type: RentType.Tenant,
+  stamp: "₹ 100",
   updateForm: (data) => set((prev) => ({ ...prev, data })),
 }));
 
