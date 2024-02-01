@@ -1,5 +1,5 @@
 import BasicDetails from "@/components/rental-form/steps/basic-details";
-import { File } from "lucide-react";
+import { MdOutlineAssignment } from "react-icons/md";
 
 export type StepData = {
   title: {
@@ -16,7 +16,9 @@ export const stepsData: StepData[] = [
       mobile: "Help us know you better",
       desktop: "Enter Basic Details",
     },
-    icon: <File />,
+    icon: (
+      <MdOutlineAssignment className="w-6 h-6" color="hsl(var(--primary))" />
+    ),
     component: <BasicDetails />,
   },
 ];
