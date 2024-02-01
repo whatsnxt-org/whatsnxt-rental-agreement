@@ -63,7 +63,7 @@ const MobileFormTitle = ({
       type="button"
       variant={"ghost"}
       size={"icon"}
-      className="p-0 w-6 h-6 rounded-full"
+      className="p-0 w-10 h-10 rounded-full"
     >
       <ArrowLeft className="w-4 h-4" />
     </Button>
@@ -71,7 +71,7 @@ const MobileFormTitle = ({
     {/* // icon */}
     <div className="ms-3">{icon}</div>
 
-    <div className="ms-6 flex flex-col items-start justify-center ">
+    <div className="ms-4 flex flex-col items-start justify-center ">
       <span>
         Step {currentStep} of {totalSteps}
       </span>
