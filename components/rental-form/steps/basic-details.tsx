@@ -20,8 +20,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import FormAction from "../form-action";
-import FormScrollableArea from "../form-scrollable-area";
+import FormAction from "@/components/rental-form/form-action";
+import FormScrollableArea from "@/components/rental-form/form-scrollable-area";
 
 const BasicDetails = () => {
   const { city, email, fullname, phoneNo, state, type, stamp, updateForm } =
