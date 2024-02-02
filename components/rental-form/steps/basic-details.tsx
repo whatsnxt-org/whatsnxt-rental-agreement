@@ -2,27 +2,13 @@
 
 import { FormHeader, FormTitle } from "@/components/rental-form/form-header";
 import { Button } from "@/components/ui/button";
-import { CustomInput } from "@/components/ui/custom-input";
+import { Form } from "@/components/ui/form";
+import { FormInput } from "@/components/ui/form-input";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  CustomRadioGroupLabel,
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  FormRadioGroup,
+  FormRadioItem,
+} from "@/components/ui/form-radio-group";
+import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import { states } from "@/constants/states";
 import { stepsData } from "@/constants/steps-data";
 import useFormData, { RentType } from "@/hooks/use-form-data";
@@ -34,15 +20,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { FaUserTie } from "react-icons/fa6";
 import FormAction from "../form-action";
 import FormScrollableArea from "../form-scrollable-area";
-import { FormInput } from "@/components/ui/form-input";
-import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
-import {
-  FormRadioGroup,
-  FormRadioItem,
-} from "@/components/ui/form-radio-group";
 
 const BasicDetails = () => {
   const { city, email, fullname, phoneNo, state, type, stamp, updateForm } =
@@ -69,7 +48,10 @@ const BasicDetails = () => {
     [currentState]
   );
 
-  const onSubmit = () => nextStep();
+  const onSubmit = (data: BasicDetailsSchema) => {
+    updateForm(data);
+    nextStep();
+  };
 
   return (
     <Form {...form}>

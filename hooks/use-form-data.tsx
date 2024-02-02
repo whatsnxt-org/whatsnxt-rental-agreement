@@ -15,7 +15,7 @@ export type FormInputs = {
   state: string;
   city: string;
   type: RentType;
-  stamp: "₹ 100";
+  stamp: string;
 };
 
 export type FormData = FormInputs & {
