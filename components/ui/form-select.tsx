@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 type FormSelectProps<T extends FieldValues> = {
   control: Control<T, any>;
@@ -37,7 +38,7 @@ export const FormSelect = <T extends FieldValues>({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { invalid } }) => (
         <FormItem>
           <Select
             onValueChange={(v) => {
@@ -46,7 +47,14 @@ export const FormSelect = <T extends FieldValues>({
             }}
             defaultValue={field.value}
           >
-            <FormLabel className="text-muted-foreground">{label}</FormLabel>
+            <FormLabel
+              className={cn(
+                "text-muted-foreground",
+                invalid && "text-destructive"
+              )}
+            >
+              {label}
+            </FormLabel>
             <FormControl>
               <SelectTrigger>
                 <SelectValue
