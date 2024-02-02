@@ -69,7 +69,7 @@ const MobileFormTitle = ({
     </Button>
 
     {/* // icon */}
-    <div className="ms-3 w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+    <div className="ms-3 w-10 h-10 rounded-full bg-muted flex items-center justify-center text-primary">
       {icon}
     </div>
 
