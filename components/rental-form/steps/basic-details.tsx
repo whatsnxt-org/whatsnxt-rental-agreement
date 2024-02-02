@@ -12,6 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
+  CustomRadioGroupLabel,
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/radio-group";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -29,35 +34,21 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { FaUserTie } from "react-icons/fa6";
 import FormAction from "../form-action";
 import FormScrollableArea from "../form-scrollable-area";
+import { FormInput } from "@/components/ui/form-input";
+import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import {
-  CustomRadioGroupLabel,
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
-import { FaUserTie } from "react-icons/fa6";
+  FormRadioGroup,
+  FormRadioItem,
+} from "@/components/ui/form-radio-group";
 
 const BasicDetails = () => {
   const { city, email, fullname, phoneNo, state, type, stamp, updateForm } =
-    useFormData(
-      ({ city, email, fullname, phoneNo, state, type, stamp, updateForm }) => ({
-        city,
-        email,
-        fullname,
-        phoneNo,
-        state,
-        type,
-        stamp,
-        updateForm,
-      })
-    );
+    useFormData();
 
-  const { pushNextStep, currentStep } = useSteps((state) => ({
-    pushNextStep: state.nextStep,
-    currentStep: state.currentStep,
-  }));
+  const { nextStep, currentStep } = useSteps();
 
   const form = useForm<BasicDetailsSchema>({
     resolver: zodResolver(basicDetailsSchema),
@@ -72,15 +63,13 @@ const BasicDetails = () => {
     },
   });
 
-  const onSubmit = (data: BasicDetailsSchema) => {
-    console.log(data);
-  };
-
   const currentState = form.watch("state");
   const cities = useMemo(
     () => states.find((state) => state.name === currentState)?.cities ?? [],
     [currentState]
   );
+
+  const onSubmit = () => nextStep();
 
   return (
     <Form {...form}>
@@ -97,205 +86,81 @@ const BasicDetails = () => {
 
         <FormScrollableArea>
           <div className="px-6 lg:px-0 space-y-4 pb-6">
-            <FormField
+            <FormInput
               control={form.control}
               name="fullname"
-              render={({ field, fieldState: { invalid } }) => (
-                <FormItem>
-                  <FormControl>
-                    <CustomInput
-                      placeholder="Full Name"
-                      className="bg-inherit"
-                      {...field}
-                      error={invalid}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="Full Name"
             />
 
-            <FormField
+            <FormInput
               control={form.control}
               name="phoneNo"
-              render={({ field, fieldState: { invalid } }) => (
-                <FormItem>
-                  <FormControl>
-                    <CustomInput
-                      placeholder="Phone Number"
-                      className="bg-inherit"
-                      {...field}
-                      error={invalid}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="Phone Number"
             />
 
-            <FormField
+            <FormInput
               control={form.control}
               name="email"
-              render={({ field, fieldState: { invalid } }) => (
-                <FormItem>
-                  <FormControl>
-                    <CustomInput
-                      type="email"
-                      placeholder="Email"
-                      className="bg-inherit"
-                      {...field}
-                      error={invalid}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="Email"
+              type="email"
             />
 
-            <FormField
+            <FormSelect
               control={form.control}
               name="state"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={(v) => {
-                      field.onChange(v);
-                      form.setValue("city", "");
-                    }}
-                    defaultValue={field.value}
-                  >
-                    <FormLabel className="text-muted-foreground">
-                      State
-                    </FormLabel>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="State where property is located" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {states.map((state) => (
-                        <SelectItem key={state.name} value={state.name}>
-                          {state.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              label="State"
+              placeholder="State where property is located"
+              onChange={(v) => {
+                form.setValue("state", v);
+                form.setValue("city", "");
+              }}
+            >
+              {states.map((state) => (
+                <FormSelectItem key={state.name} value={state.name}>
+                  {state.name}
+                </FormSelectItem>
+              ))}
+            </FormSelect>
 
-            <FormField
+            <FormSelect
               control={form.control}
               name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormLabel className="text-muted-foreground">
-                      City
-                    </FormLabel>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="City where property is located" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {cities.map((city) => (
-                        <SelectItem key={city} value={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              label="City"
+              placeholder="City where property is located"
+            >
+              {cities.map((city) => (
+                <FormSelectItem key={city} value={city}>
+                  {city}
+                </FormSelectItem>
+              ))}
+            </FormSelect>
 
-            <FormField
+            <FormSelect
               control={form.control}
               name="stamp"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormLabel className="text-muted-foreground">
-                      Stamp
-                    </FormLabel>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="₹ 100" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="₹ 100">₹ 100</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              label="Stamp"
+              placeholder=""
+            >
+              <FormSelectItem value="₹ 100">₹ 100</FormSelectItem>
+            </FormSelect>
 
-            <FormField
+            <FormRadioGroup
               control={form.control}
               name="type"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>I am a/an</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="grid grid-cols-3 gap-4"
-                    >
-                      <FormItem className="flex items-center">
-                        <FormControl>
-                          <RadioGroupItem value={RentType.Tenant} />
-                        </FormControl>
-                        <FormLabel className="w-full">
-                          <CustomRadioGroupLabel
-                            isSelected={field.value === RentType.Tenant}
-                          >
-                            <FaUserTie fontSize={20} />
-                            <span>Tenant</span>
-                          </CustomRadioGroupLabel>
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center">
-                        <FormControl>
-                          <RadioGroupItem value={RentType.LandLord} />
-                        </FormControl>
-                        <FormLabel className="w-full">
-                          <CustomRadioGroupLabel
-                            isSelected={field.value === RentType.LandLord}
-                          >
-                            <FaUserTie fontSize={20} />
-                            <span>Landlord</span>
-                          </CustomRadioGroupLabel>
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center">
-                        <FormControl>
-                          <RadioGroupItem value={RentType.Agent} />
-                        </FormControl>
-                        <FormLabel className="w-full">
-                          <CustomRadioGroupLabel
-                            isSelected={field.value === RentType.Agent}
-                          >
-                            <FaUserTie fontSize={20} />
-                            <span>Agent</span>
-                          </CustomRadioGroupLabel>
-                        </FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              label="I am a/an"
+              className="grid grid-cols-3 gap-4"
+              render={(field) => (
+                <>
+                  <FormRadioItem value={RentType.Tenant} field={field}>
+                    Tenant
+                  </FormRadioItem>
+                  <FormRadioItem value={RentType.LandLord} field={field}>
+                    Landlord
+                  </FormRadioItem>
+                  <FormRadioItem value={RentType.Agent} field={field}>
+                    Agent
+                  </FormRadioItem>
+                </>
               )}
             />
           </div>
