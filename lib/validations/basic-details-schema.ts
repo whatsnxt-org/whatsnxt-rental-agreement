@@ -5,7 +5,7 @@ import { RentType } from "@/hooks/use-form-data";
 export const basicDetailsSchema = z.object({
   fullname: z.string().min(1, "Required"),
   email: z.string().email("Invalid Email Format"),
-  phoneNo: z.coerce.string(),
+  phoneNo: z.coerce.string().min(10, "Invalid Phone Number"),
   city: requiredStringSchema,
   state: requiredStringSchema,
   type: z.nativeEnum(RentType),
