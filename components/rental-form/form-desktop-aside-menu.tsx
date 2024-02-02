@@ -36,7 +36,10 @@ const FormDesktopAsideMenu = () => {
 
           {/* Steps */}
           {stepsData.map((step, i) => (
-            <div className="flex justify-between items-center gap-2 py-4">
+            <div
+              className="flex justify-between items-center gap-2 py-4"
+              key={step.title.mobile}
+            >
               <div className="flex gap-4 items-center">
                 <div
                   className={cn(
