@@ -8,3 +8,5 @@ export const useLandlordDetails = () =>
 export const useTenantDetails = () => useStore((state) => state.tenantDetails);
 export const usePropertyDetails = () =>
   useStore((state) => state.propertyDetails);
+export const useContractDetails = () =>
+  useStore((state) => state.contractDetails);
