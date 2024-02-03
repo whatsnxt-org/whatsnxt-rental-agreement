@@ -5,6 +5,7 @@ import { LiaUserAstronautSolid, LiaFileContractSolid } from "react-icons/lia";
 import { IoLocateOutline } from "react-icons/io5";
 import LandLordDetails from "@/components/rental-form/steps/landlord-details";
 import TenantDetails from "@/components/rental-form/steps/tenant-details";
+import PropertyDetails from "@/components/rental-form/steps/property-details";
 
 export type StepData = {
   title: {
@@ -51,7 +52,7 @@ export const stepsData: StepData[] = [
       desktop: "Enter Property Details",
     },
     icon: <IoLocateOutline className="w-6 h-6" />,
-    component: <BasicDetails />,
+    component: <PropertyDetails />,
   },
   {
     title: {
