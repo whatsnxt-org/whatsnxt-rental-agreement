@@ -40,7 +40,9 @@ export const FormRadioGroup = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="font-semibold text-muted-foreground">
+            {label}
+          </FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
