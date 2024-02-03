@@ -10,15 +10,25 @@ export const propertyDetailsSchema = z
     pincode: z.coerce.string(),
     city: z.coerce.string(),
   })
-  .refine((schema) => {
-    if (schema.sameLandlordAddress) return true;
-    return (
-      schema.houseNo !== "" &&
-      schema.address !== "" &&
-      schema.locality !== "" &&
-      schema.pincode !== "" &&
-      schema.city !== ""
-    );
-  });
+  .refine(
+    (schema) => (schema.sameLandlordAddress ? true : schema.houseNo !== ""),
+    { message: "Required", path: ["houseNo"] }
+  )
+  .refine(
+    (schema) => (schema.sameLandlordAddress ? true : schema.address !== ""),
+    { message: "Required", path: ["address"] }
+  )
+  .refine(
+    (schema) => (schema.sameLandlordAddress ? true : schema.locality !== ""),
+    { message: "Required", path: ["locality"] }
+  )
+  .refine(
+    (schema) => (schema.sameLandlordAddress ? true : schema.pincode !== ""),
+    { message: "Required", path: ["pincode"] }
+  )
+  .refine(
+    (schema) => (schema.sameLandlordAddress ? true : schema.city !== ""),
+    { message: "Required", path: ["city"] }
+  );
 
 export type PropertyDetailsSchema = z.infer<typeof propertyDetailsSchema>;
