@@ -1,10 +1,9 @@
 "use client";
 
-import type { StepData } from "@/constants/steps-data";
 import useScreen from "@/hooks/useScreen";
-import { ReactNode } from "react";
-import { Button } from "../ui/button";
 import { ArrowLeft } from "lucide-react";
+import { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
 
 export const FormHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -50,6 +49,7 @@ const MobileFormTitle = ({
   title,
   currentStep,
   totalSteps,
+  onPrevStep,
 }: {
   icon: JSX.Element;
   currentStep: number;
@@ -64,6 +64,7 @@ const MobileFormTitle = ({
       variant={"ghost"}
       size={"icon"}
       className="p-0 w-10 h-10 rounded-full"
+      onClick={onPrevStep}
     >
       <ArrowLeft className="w-4 h-4" />
     </Button>
