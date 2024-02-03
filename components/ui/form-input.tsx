@@ -8,12 +8,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CustomInput } from "@/components/ui/custom-input";
+import { cn } from "@/lib/utils";
 
 type FormInputProps<T extends FieldValues> = {
   control: Control<T, any>;
   name: Path<T>;
   type?: string;
   placeholder: string;
+  disabled?: boolean;
   onChange?: (value: string) => void;
 };
 export const FormInput = <T extends FieldValues>({
@@ -21,6 +23,7 @@ export const FormInput = <T extends FieldValues>({
   control,
   type,
   placeholder,
+  disabled,
   onChange,
 }: FormInputProps<T>) => {
   return (
@@ -33,9 +36,10 @@ export const FormInput = <T extends FieldValues>({
             <CustomInput
               type={type}
               placeholder={placeholder}
-              className="bg-inherit"
+              className={cn("bg-inherit", disabled && "bg-muted")}
               {...field}
               error={invalid}
+              disabled={disabled}
               onChange={(e) => {
                 field.onChange(e);
                 onChange?.(e.target.value);
