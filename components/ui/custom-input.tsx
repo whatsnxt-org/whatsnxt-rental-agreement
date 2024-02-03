@@ -9,7 +9,14 @@ const Input = React.forwardRef<
   HTMLInputElement,
   InputProps & { error?: boolean }
 >(({ className, type, placeholder, onFocus, onBlur, error, ...props }, ref) => {
+  const innerRef = React.useRef<HTMLInputElement>(null);
+  React.useImperativeHandle(ref, () => innerRef.current!, []);
   const [isFocused, setIsFocused] = React.useState(false);
+
+  React.useEffect(() => {
+    if (innerRef.current?.value !== "") setIsFocused(true);
+  }, []);
+
   return (
     <div className="relative w-full pt-3">
       <div
@@ -37,7 +44,7 @@ const Input = React.forwardRef<
           error && "border-b-red-600",
           className
         )}
-        ref={ref}
+        ref={innerRef}
         {...props}
       />
     </div>
