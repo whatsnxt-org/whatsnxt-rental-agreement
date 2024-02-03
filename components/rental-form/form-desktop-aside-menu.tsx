@@ -44,7 +44,7 @@ const FormDesktopAsideMenu = () => {
                 <div
                   className={cn(
                     "text-neutral-100/65 w-10 h-10 rounded-full flex items-center justify-center",
-                    currentStep >= i && "text-neutral-100 border"
+                    currentStep === i && "text-neutral-100 border"
                   )}
                 >
                   {step.icon}
@@ -52,7 +52,7 @@ const FormDesktopAsideMenu = () => {
                 <span
                   className={cn(
                     "text-neutral-100/65 text-sm font-semibold leading-6",
-                    currentStep >= i && "text-neutral-100"
+                    currentStep === i && "text-neutral-100"
                   )}
                 >
                   {step.title.mobile}
