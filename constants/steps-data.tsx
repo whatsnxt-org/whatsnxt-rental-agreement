@@ -3,6 +3,7 @@ import { MdOutlineAssignment } from "react-icons/md";
 import { TfiUser } from "react-icons/tfi";
 import { LiaUserAstronautSolid, LiaFileContractSolid } from "react-icons/lia";
 import { IoLocateOutline } from "react-icons/io5";
+import LandLordDetails from "@/components/rental-form/steps/landlord-details";
 
 export type StepData = {
   title: {
@@ -33,7 +34,7 @@ export const stepsData: StepData[] = [
       desktop: "Enter Landlord Details",
     },
     icon: <TfiUser className="w-6 h-6" />,
-    component: <BasicDetails />,
+    component: <LandLordDetails />,
   },
   {
     title: {
