@@ -51,7 +51,7 @@ export const CustomRadioGroupLabel = ({
 }) => (
   <div
     className={cn(
-      "w-full px-2 max-w-40 h-16 rounded-xl border",
+      "w-full px-2 max-w-40 h-16 rounded-xl border cursor-pointer",
       isSelected && "bg-muted"
     )}
   >
