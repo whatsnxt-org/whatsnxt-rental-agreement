@@ -14,12 +14,14 @@ type FormInputProps<T extends FieldValues> = {
   name: Path<T>;
   type?: string;
   placeholder: string;
+  onChange?: (value: string) => void;
 };
 export const FormInput = <T extends FieldValues>({
   name,
   control,
   type,
   placeholder,
+  onChange,
 }: FormInputProps<T>) => {
   return (
     <FormField
@@ -34,6 +36,10 @@ export const FormInput = <T extends FieldValues>({
               className="bg-inherit"
               {...field}
               error={invalid}
+              onChange={(e) => {
+                field.onChange(e);
+                onChange?.(e.target.value);
+              }}
             />
           </FormControl>
           <FormMessage />
