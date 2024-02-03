@@ -1,6 +1,8 @@
 "use client";
 
+import FormAction from "@/components/rental-form/form-action";
 import { FormHeader, FormTitle } from "@/components/rental-form/form-header";
+import FormScrollableArea from "@/components/rental-form/form-scrollable-area";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/ui/form-input";
@@ -11,35 +13,28 @@ import {
 import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import { states } from "@/constants/states";
 import { stepsData } from "@/constants/steps-data";
-import useFormData, { RentType } from "@/hooks/use-form-data";
-import useSteps from "@/hooks/use-steps";
+import { useStore } from "@/hooks/use-store-hooks";
 import {
   BasicDetailsSchema,
   basicDetailsSchema,
 } from "@/lib/validations/basic-details-schema";
+import { RentType } from "@/store/basic-details-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import FormAction from "@/components/rental-form/form-action";
-import FormScrollableArea from "@/components/rental-form/form-scrollable-area";
 
 const BasicDetails = () => {
-  const { city, email, fullname, phoneNo, state, type, stamp, updateForm } =
-    useFormData();
-
-  const { nextStep, currentStep } = useSteps();
+  const {
+    basicDetails,
+    steps: { nextStep, currentStep },
+  } = useStore((state) => ({
+    basicDetails: state.basicDetails,
+    steps: state.steps,
+  }));
 
   const form = useForm<BasicDetailsSchema>({
     resolver: zodResolver(basicDetailsSchema),
-    defaultValues: {
-      city,
-      email,
-      fullname,
-      phoneNo,
-      state,
-      type,
-      stamp,
-    },
+    defaultValues: basicDetails,
   });
 
   const currentState = form.watch("state");
@@ -49,7 +44,7 @@ const BasicDetails = () => {
   );
 
   const onSubmit = (data: BasicDetailsSchema) => {
-    updateForm(data);
+    basicDetails.updateForm(data);
     nextStep();
   };
 

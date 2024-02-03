@@ -1,13 +1,13 @@
 "use client";
 
-import useSteps from "@/hooks/use-steps";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
 import { stepsData } from "@/constants/steps-data";
+import { useSteps } from "@/hooks/use-store-hooks";
 import { cn } from "@/lib/utils";
+import { Check, X } from "lucide-react";
 
 const FormDesktopAsideMenu = () => {
-  const currentStep = useSteps((state) => state.currentStep);
+  const currentStep = useSteps().currentStep;
   return (
     <aside className="min-h-screen w-[600px] bg-primary">
       <div className="px-8 py-10">
