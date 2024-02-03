@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
+import { format as dateFormat } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ type FormCalenderProps<T extends FieldValues> = {
   control: Control<T, any>;
   name: Path<T>;
   label: string;
+  format?: string;
   placeholder?: string;
   description?: string;
 };
@@ -32,6 +33,7 @@ export const FormCalender = <T extends FieldValues>({
   name,
   label,
   description,
+  format = "PPP",
   placeholder,
 }: FormCalenderProps<T>) => {
   return (
@@ -40,19 +42,21 @@ export const FormCalender = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="text-muted-foreground text-xs">
+            {label}
+          </FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant={"outline"}
+                  variant={"ghost"}
                   className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
+                    "w-full px-0 text-left font-semibold text-lg hover:bg-inherit focus-visible:bg-inherit border-b",
                     !field.value && "text-muted-foreground"
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "PPP")
+                    dateFormat(field.value, format)
                   ) : (
                     <span>{placeholder ?? "Pick a date"}</span>
                   )}
@@ -71,8 +75,8 @@ export const FormCalender = <T extends FieldValues>({
           </Popover>
           {description && (
             <FormDescription className="flex items-center gap-2">
-              <Info className="w-2 h-2" />
-              <span>{description}</span>
+              <Info className="w-4 h-4" />
+              <span className="text-xs">{description}</span>
             </FormDescription>
           )}
           <FormMessage />
