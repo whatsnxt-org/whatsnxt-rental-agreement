@@ -49,19 +49,17 @@ export const FormSelect = <T extends FieldValues>({
           >
             <FormLabel
               className={cn(
-                "text-muted-foreground",
+                "text-muted-foreground text-xs font-semibold",
                 invalid && "text-destructive"
               )}
             >
               {label}
             </FormLabel>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="text-lg font-semibold border-0 border-b">
                 <SelectValue
                   placeholder={
-                    <span className="text-muted-foreground text-base">
-                      {placeholder}
-                    </span>
+                    <span className="text-muted-foreground">{placeholder}</span>
                   }
                 />
               </SelectTrigger>
