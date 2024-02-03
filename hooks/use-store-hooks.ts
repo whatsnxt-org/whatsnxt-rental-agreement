@@ -5,3 +5,4 @@ export const useSteps = () => useStore((state) => state.steps);
 export const useBasicDetails = () => useStore((state) => state.basicDetails);
 export const useLandlordDetails = () =>
   useStore((state) => state.landlordDetails);
+export const useTenantDetails = () => useStore((state) => state.tenantDetails);
