@@ -1,9 +1,9 @@
 "use client";
 
-import useScreen from "@/hooks/useScreen";
-import { ArrowLeft } from "lucide-react";
-import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import useScreen from "@/hooks/useScreen";
+import { ChevronLeft } from "lucide-react";
+import { ReactNode } from "react";
 
 export const FormHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -32,7 +32,7 @@ export const FormTitle = ({
 }: FormTitleProps) => {
   const { isDesktop } = useScreen();
   return isDesktop ? (
-    <DesktopFormTitle title={desktopTitle} />
+    <DesktopFormTitle title={desktopTitle} onPrevStep={onPrevStep} />
   ) : (
     <MobileFormTitle
       title={mobileTitle}
@@ -66,7 +66,7 @@ const MobileFormTitle = ({
       className="p-0 w-10 h-10 rounded-full"
       onClick={onPrevStep}
     >
-      <ArrowLeft className="w-4 h-4" />
+      <ChevronLeft className="w-4 h-4" />
     </Button>
 
     {/* // icon */}
@@ -83,10 +83,31 @@ const MobileFormTitle = ({
   </div>
 );
 
-const DesktopFormTitle = ({ title }: { title: string }) => (
-  <div>
-    <h2 className="text-2xl font-semibold text-gray-700">{title}</h2>
-  </div>
+const DesktopFormTitle = ({
+  title,
+  onPrevStep,
+}: {
+  title: string;
+  onPrevStep?: () => void;
+}) => (
+  <>
+    {onPrevStep && (
+      <div className="absolute top-6 left-6">
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          type="button"
+          className="px-0 w-10 h-10 rounded-full"
+          onClick={onPrevStep}
+        >
+          <ChevronLeft />
+        </Button>
+      </div>
+    )}
+    <div>
+      <h2 className="text-2xl font-semibold text-gray-700">{title}</h2>
+    </div>
+  </>
 );
 
 export default FormHeader;
