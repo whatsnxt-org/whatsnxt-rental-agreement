@@ -6,6 +6,7 @@ import { IoLocateOutline } from "react-icons/io5";
 import LandLordDetails from "@/components/rental-form/steps/landlord-details";
 import TenantDetails from "@/components/rental-form/steps/tenant-details";
 import PropertyDetails from "@/components/rental-form/steps/property-details";
+import ContractDeatils from "@/components/rental-form/steps/contract-details-step";
 
 export type StepData = {
   title: {
@@ -22,12 +23,7 @@ export const stepsData: StepData[] = [
       mobile: "Help us know you better",
       desktop: "Enter Basic Details",
     },
-    icon: (
-      <MdOutlineAssignment
-        className="w-6 h-6"
-        // color="hsl(var(--primary))"
-      />
-    ),
+    icon: <MdOutlineAssignment className="w-6 h-6" />,
     component: <BasicDetails />,
   },
   {
@@ -60,7 +56,7 @@ export const stepsData: StepData[] = [
       desktop: "Enter Contract Details",
     },
     icon: <LiaFileContractSolid className="w-6 h-6" />,
-    component: <BasicDetails />,
+    component: <ContractDeatils />,
   },
   {
     title: {
