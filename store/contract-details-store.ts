@@ -11,11 +11,11 @@ export type ContractDetails = ContractDetailsSchema & {
 const defaultContractDetails = {
   startDate: new Date(),
   monthlyRent: "",
-  tenantCharges: false,
+  tenantCharges: true,
   rentPaymentDate: "1",
   securityAmount: "",
   noticePeriod: "2",
-  increaseRent: false,
+  increaseRent: true,
   increaseRentPercentage: "",
   clauses: [{ text: "" }],
 };
