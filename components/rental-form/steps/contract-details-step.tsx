@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form-radio-group";
 import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import { daysInMonth } from "@/constants/days-of-month";
-import { states } from "@/constants/states";
 import { stepsData } from "@/constants/steps-data";
 import { useContractDetails, useSteps } from "@/hooks/use-store-hooks";
 import {
@@ -34,6 +33,7 @@ const ContractDeatils = () => {
     defaultValues: contractDetails,
   });
 
+  const isIncreasedRent = form.watch("increaseRent");
   const clauses = form.watch("clauses");
 
   const handleClauses = () => {
@@ -42,16 +42,14 @@ const ContractDeatils = () => {
     console.log("clauses");
   };
 
-  // useEffect(() => {
-  //   console.log(clauses);
-  //   if (clauses[clauses.length - 1]?.text?.length > 0)
-  //     form.setValue("clauses", [...clauses, { text: "" }]);
-  // }, [clauses[clauses.length - 1]?.text]);
-
   const onSubmit = (data: ContractDetailsSchema) => {
     contractDetails.updateForm(data);
     nextStep();
   };
+
+  useEffect(() => {
+    if (!isIncreasedRent) form.clearErrors("increaseRentPercentage");
+  }, [isIncreasedRent]);
 
   return (
     <Form {...form}>
@@ -140,6 +138,7 @@ const ContractDeatils = () => {
                 control={form.control}
                 name="increaseRentPercentage"
                 placeholder="Increase Percentage (%)"
+                disabled={!isIncreasedRent}
               />
             </div>
 
