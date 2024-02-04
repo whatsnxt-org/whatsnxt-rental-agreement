@@ -89,6 +89,13 @@ const PropertyDetails = () => {
 
             <FormInput
               control={form.control}
+              name="city"
+              placeholder="City"
+              disabled={isSameLandlordAddress}
+            />
+
+            <FormInput
+              control={form.control}
               name="address"
               placeholder="Address"
               disabled={isSameLandlordAddress}
