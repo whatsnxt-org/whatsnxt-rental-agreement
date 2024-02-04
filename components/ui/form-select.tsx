@@ -56,7 +56,12 @@ export const FormSelect = <T extends FieldValues>({
               {label}
             </FormLabel>
             <FormControl>
-              <SelectTrigger className="text-lg font-semibold border-0 border-b">
+              <SelectTrigger
+                className={cn(
+                  "bg-inherit text-lg border-0 border-b",
+                  field.value !== "" && "font-semibold"
+                )}
+              >
                 <SelectValue
                   placeholder={
                     <span className="text-muted-foreground">{placeholder}</span>
