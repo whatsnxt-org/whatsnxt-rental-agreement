@@ -6,6 +6,7 @@ export type StepsStore = {
   currentStep: number;
   nextStep: () => void;
   prevStep: () => void;
+  setStep: (index: number) => void;
 };
 
 export const stepsStore = (set: TSet) => ({
@@ -19,6 +20,12 @@ export const stepsStore = (set: TSet) => ({
     set((state) => ({
       ...state,
       steps: { ...state.steps, currentStep: state.steps.currentStep - 1 },
+    })),
+
+  setStep: (index: number) =>
+    set((state) => ({
+      ...state,
+      steps: { ...state.steps, currentStep: index },
     })),
 });
 
