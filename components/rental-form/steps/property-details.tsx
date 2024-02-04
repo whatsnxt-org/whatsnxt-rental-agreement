@@ -19,6 +19,7 @@ import {
   propertyDetailsSchema,
 } from "@/lib/validations/property-details-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const PropertyDetails = () => {
@@ -36,6 +37,10 @@ const PropertyDetails = () => {
     propertyDetails.updateForm(data);
     nextStep();
   };
+
+  useEffect(() => {
+    if (isSameLandlordAddress) form.clearErrors();
+  }, [isSameLandlordAddress]);
 
   return (
     <Form {...form}>
