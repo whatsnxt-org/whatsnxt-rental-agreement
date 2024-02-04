@@ -7,6 +7,7 @@ import LandLordDetails from "@/components/rental-form/steps/landlord-details";
 import TenantDetails from "@/components/rental-form/steps/tenant-details";
 import PropertyDetails from "@/components/rental-form/steps/property-details";
 import ContractDeatils from "@/components/rental-form/steps/contract-details-step";
+import ItemsList from "@/components/rental-form/steps/items-list";
 
 export type StepData = {
   title: {
@@ -60,10 +61,10 @@ export const stepsData: StepData[] = [
   },
   {
     title: {
-      mobile: "Item List",
-      desktop: "Enter Item List",
+      mobile: "Items List",
+      desktop: "Enter Items List",
     },
     icon: <LiaFileContractSolid className="w-6 h-6" />,
-    component: <BasicDetails />,
+    component: <ItemsList />,
   },
 ];
