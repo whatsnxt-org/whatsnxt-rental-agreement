@@ -10,3 +10,4 @@ export const usePropertyDetails = () =>
   useStore((state) => state.propertyDetails);
 export const useContractDetails = () =>
   useStore((state) => state.contractDetails);
+export const useItemsList = () => useStore((state) => state.itemsList);

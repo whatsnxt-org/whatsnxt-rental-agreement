@@ -13,6 +13,7 @@ import propertyDetailsStore, {
 import contractDetailsStore, {
   ContractDetails,
 } from "./contract-details-store";
+import itemsListStore, { ItemsListStore } from "./items-list-store";
 
 export type FormStore = {
   steps: StepsStore;
@@ -21,6 +22,7 @@ export type FormStore = {
   tenantDetails: TenantDetails;
   propertyDetails: PropertyDetails;
   contractDetails: ContractDetails;
+  itemsList: ItemsListStore;
 };
 
 export type TSet = (
@@ -38,6 +40,7 @@ const useFormStore = create<FormStore>((set) => ({
   tenantDetails: tenantDetailsStore(set),
   propertyDetails: propertyDetailsStore(set),
   contractDetails: contractDetailsStore(set),
+  itemsList: itemsListStore(set),
 }));
 
 export default useFormStore;
