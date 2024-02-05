@@ -40,8 +40,7 @@ const ContractDetailsWidget = () => {
         </span>
         <span className="capitalize whitespace-break-spaces">
           {increaseRent &&
-            `Rent Increment:   ${increaseRentPercentage}%   (Every Month)   *  `}{" "}
-          {`Notice ${noticePeriod} Months`}
+            `Rent Increment:   ${increaseRentPercentage}%   After Duration Is Over`}
         </span>
       </div>
     </DetailsWidget>
