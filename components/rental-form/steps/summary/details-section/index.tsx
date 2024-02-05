@@ -1,6 +1,7 @@
 "use client";
 
 import ContractDetailsWidget from "./contract-details-widget";
+import ItemsListWidget from "./items-list-widget";
 import LandlordDetailsWidget from "./landlord-details-widget";
 import PropertyDetailsWidget from "./property-details-widget";
 import TenantDetailsWidget from "./tenant-details-widget";
@@ -12,6 +13,7 @@ const DetailsSection = () => {
       <TenantDetailsWidget />
       <PropertyDetailsWidget />
       <ContractDetailsWidget />
+      <ItemsListWidget />
     </div>
   );
 };
