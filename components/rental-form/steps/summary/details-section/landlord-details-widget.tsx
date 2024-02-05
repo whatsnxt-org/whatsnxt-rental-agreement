@@ -26,8 +26,8 @@ const LandlordDetailsWidget = () => {
         {showDetails && (
           <>
             <span className="capitalize">{mainLandlord.permenantAddress}</span>
-            <span>
-              {mainLandlord.phoneNo} * {mainLandlord.email}
+            <span className="whitespace-break-spaces">
+              {`${mainLandlord.phoneNo}   *   ${mainLandlord.email}`}
             </span>
           </>
         )}

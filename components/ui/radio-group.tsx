@@ -51,12 +51,12 @@ export const CustomRadioGroupLabel = ({
 }) => (
   <div
     className={cn(
-      "w-full px-2 max-w-40 h-16 rounded-xl border cursor-pointer",
-      isSelected && "bg-muted"
+      "w-full px-2 max-w-40 h-16 rounded-xl border border-wnr-purple/25 cursor-pointer",
+      isSelected && "bg-wnr-purple/15"
     )}
   >
     <div className="flex h-full items-center justify-center">
-      <div className="flex gap-2 items-center">{children}</div>
+      <div className="flex gap-2 items-center text-wnr-purple">{children}</div>
     </div>
   </div>
 );

@@ -22,8 +22,8 @@ const TenantDetailsWidget = () => {
         {showDetails && (
           <>
             <span className="capitalize">{permenantAddress}</span>
-            <span>
-              {phoneNo} * {email}
+            <span className="whitespace-break-spaces">
+              {`${phoneNo}   *   ${email}`}
             </span>
           </>
         )}

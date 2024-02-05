@@ -32,7 +32,7 @@ export const stepsData: StepData[] = [
       mobile: "Landlord Details",
       desktop: "Enter Landlord Details",
     },
-    icon: <TfiUser className="w-6 h-6" />,
+    icon: <TfiUser className="w-4 h-4" />,
     component: <LandLordDetails />,
   },
   {

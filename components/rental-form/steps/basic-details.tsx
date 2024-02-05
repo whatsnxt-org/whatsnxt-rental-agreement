@@ -22,6 +22,9 @@ import { RentType } from "@/store/basic-details-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { FaUserTie } from "react-icons/fa6";
+import { LiaUserAstronautSolid } from "react-icons/lia";
+import { TfiUser } from "react-icons/tfi";
 
 const BasicDetails = () => {
   const {
@@ -129,13 +132,22 @@ const BasicDetails = () => {
               render={(field) => (
                 <>
                   <FormRadioItem value={RentType.Tenant} field={field}>
-                    Tenant
+                    <div className="flex items-center gap-2">
+                      <LiaUserAstronautSolid className="w-6 h-6" />
+                    </div>
+                    <span>Tenant</span>
                   </FormRadioItem>
                   <FormRadioItem value={RentType.LandLord} field={field}>
-                    Landlord
+                    <div className="flex items-center gap-2">
+                      <TfiUser className="w-4 h-4" />
+                      <span>Landlord</span>
+                    </div>
                   </FormRadioItem>
                   <FormRadioItem value={RentType.Agent} field={field}>
-                    Agent
+                    <div className="flex items-center gap-2">
+                      <FaUserTie className="w-4 h-4" />
+                      <span>Agent</span>
+                    </div>
                   </FormRadioItem>
                 </>
               )}

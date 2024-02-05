@@ -69,7 +69,7 @@ const LandLordDetails = () => {
               size={"sm"}
               variant={"ghost"}
               type="button"
-              className="text-blue-500 border-b border-b-blue-500 rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-blue-500 focus-visible:text-blue-500 p-0 flex items-center gap-4"
+              className="text-wnr-purple border-b border-b-wnr-purple rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-wnr-purple focus-visible:text-wnr-purple p-0 flex items-center gap-4"
               onClick={() => addOwner()}
             >
               <Plus className="w-4 h-4" />

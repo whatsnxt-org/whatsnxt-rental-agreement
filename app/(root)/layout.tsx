@@ -18,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${rubic.className}`}>
-        <div className="min-h-screen max-w-[90rem] mx-auto bg-wnr-purple/5">
-          {children}
-        </div>
+        <div className="min-h-screen bg-wnr-purple/5">{children}</div>
       </body>
     </html>
   );

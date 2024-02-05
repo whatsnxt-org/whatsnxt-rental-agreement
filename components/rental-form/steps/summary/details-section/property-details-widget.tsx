@@ -28,8 +28,8 @@ const PropertyDetailsWidget = () => {
       <div className="flex flex-col gap-2 text-muted-foreground text-xs font-semibold">
         <span className="text-foreground text-base capitalize">{address}</span>
 
-        <span>
-          {houseNo && `House No. ${houseNo} *`} {space}
+        <span className="whitespace-break-spaces">
+          {`${houseNo && `House No. ${houseNo}   *  `}${space}`}
         </span>
       </div>
     </DetailsWidget>
