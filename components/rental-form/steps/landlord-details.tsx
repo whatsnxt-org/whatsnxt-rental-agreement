@@ -51,12 +51,18 @@ const LandLordDetails = () => {
         </FormHeader>
 
         <FormScrollableArea>
-          <div className="px-6 lg:px-0 space-y-8 pb-6">
+          <div className="px-6 lg:px-0 space-y-4 pb-6">
             {landlords.map((_, i) => (
               <div key={i}>
                 {i !== 0 && (
-                  <span className="font-semibold text-lg">Co Owner</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">{`Landlord ${i + 1}`}</span>
+                    <span className="text-sm text-wnr-purple cursor-pointer">
+                      Remove
+                    </span>
+                  </div>
                 )}
+
                 <LandlordForm
                   index={i}
                   errors={form.formState.errors?.landlords?.[i]}
@@ -69,11 +75,11 @@ const LandLordDetails = () => {
               size={"sm"}
               variant={"ghost"}
               type="button"
-              className="text-wnr-purple border-b border-b-wnr-purple rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-wnr-purple focus-visible:text-wnr-purple p-0 flex items-center gap-4"
+              className="text-wnr-purple rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-wnr-purple focus-visible:text-wnr-purple p-0 flex items-center"
               onClick={() => addOwner()}
             >
-              <Plus className="w-4 h-4" />
-              <span>Add Co-Owner</span>
+              <Plus className="w-3 h-3" strokeWidth={3} />
+              <span>Add Co-owner</span>
             </Button>
           </div>
         </FormScrollableArea>
@@ -82,6 +88,7 @@ const LandLordDetails = () => {
           <div className="px-6 lg:px-0">
             <Button
               type="button"
+              size={"lg"}
               className="w-full"
               onClick={form.handleSubmit(nextStep)}
             >
@@ -124,52 +131,54 @@ const LandlordForm = ({
   }, [errors]);
 
   return (
-    <Form {...form}>
-      <form className="space-y-2">
-        <FormInput
-          control={form.control}
-          name="fullname"
-          placeholder="Full Name"
-          onChange={(value) => updateForm(index, { fullname: value })}
-        />
+    <div className="px-6 py-2 rounded-lg border">
+      <Form {...form}>
+        <form className="space-y-2">
+          <FormInput
+            control={form.control}
+            name="fullname"
+            placeholder="Full Name"
+            onChange={(value) => updateForm(index, { fullname: value })}
+          />
 
-        <FormInput
-          control={form.control}
-          name="parentName"
-          placeholder="Father/Mother Name"
-          onChange={(value) => updateForm(index, { parentName: value })}
-        />
+          <FormInput
+            control={form.control}
+            name="parentName"
+            placeholder="Father/Mother Name"
+            onChange={(value) => updateForm(index, { parentName: value })}
+          />
 
-        <FormInput
-          control={form.control}
-          name="phoneNo"
-          placeholder="Phone Number"
-          onChange={(value) => updateForm(index, { phoneNo: value })}
-        />
+          <FormInput
+            control={form.control}
+            name="phoneNo"
+            placeholder="Phone Number"
+            onChange={(value) => updateForm(index, { phoneNo: value })}
+          />
 
-        <FormInput
-          control={form.control}
-          name="email"
-          placeholder="Email"
-          type="email"
-          onChange={(value) => updateForm(index, { email: value })}
-        />
+          <FormInput
+            control={form.control}
+            name="email"
+            placeholder="Email"
+            type="email"
+            onChange={(value) => updateForm(index, { email: value })}
+          />
 
-        <FormInput
-          control={form.control}
-          name="permenantAddress"
-          placeholder="Permenant Address"
-          onChange={(value) => updateForm(index, { permenantAddress: value })}
-        />
+          <FormInput
+            control={form.control}
+            name="permenantAddress"
+            placeholder="Permenant Address"
+            onChange={(value) => updateForm(index, { permenantAddress: value })}
+          />
 
-        <FormInput
-          control={form.control}
-          name="panNo"
-          placeholder="Pan No. (optional)"
-          onChange={(value) => updateForm(index, { panNo: value })}
-        />
-      </form>
-    </Form>
+          <FormInput
+            control={form.control}
+            name="panNo"
+            placeholder="Pan No. (optional)"
+            onChange={(value) => updateForm(index, { panNo: value })}
+          />
+        </form>
+      </Form>
+    </div>
   );
 };
 export default LandLordDetails;

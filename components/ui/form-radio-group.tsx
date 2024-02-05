@@ -40,7 +40,7 @@ export const FormRadioGroup = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="font-semibold text-muted-foreground">
+          <FormLabel className="text-muted-foreground font-normal text-sm">
             {label}
           </FormLabel>
           <FormControl>
@@ -74,7 +74,7 @@ export const FormRadioItem = <T extends FieldValues>({
     <FormControl>
       <RadioGroupItem value={value} />
     </FormControl>
-    <FormLabel className="w-full">
+    <FormLabel className="w-full text-sm">
       <CustomRadioGroupLabel isSelected={value === field.value}>
         {children}
       </CustomRadioGroupLabel>

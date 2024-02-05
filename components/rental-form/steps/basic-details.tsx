@@ -14,6 +14,7 @@ import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import { states } from "@/constants/states";
 import { stepsData } from "@/constants/steps-data";
 import { useStore } from "@/hooks/use-store-hooks";
+import { cn } from "@/lib/utils";
 import {
   BasicDetailsSchema,
   basicDetailsSchema,
@@ -38,6 +39,7 @@ const BasicDetails = () => {
   const form = useForm<BasicDetailsSchema>({
     resolver: zodResolver(basicDetailsSchema),
     defaultValues: basicDetails,
+    mode: "onBlur",
   });
 
   const currentState = form.watch("state");
@@ -133,19 +135,34 @@ const BasicDetails = () => {
                 <>
                   <FormRadioItem value={RentType.Tenant} field={field}>
                     <div className="flex items-center gap-2">
-                      <LiaUserAstronautSolid className="w-6 h-6" />
+                      <LiaUserAstronautSolid
+                        className={cn(
+                          "w-6 h-6",
+                          field.value === RentType.Tenant && "text-wnr-purple"
+                        )}
+                      />
                     </div>
                     <span>Tenant</span>
                   </FormRadioItem>
                   <FormRadioItem value={RentType.LandLord} field={field}>
                     <div className="flex items-center gap-2">
-                      <TfiUser className="w-4 h-4" />
+                      <TfiUser
+                        className={cn(
+                          "w-4 h-4",
+                          field.value === RentType.LandLord && "text-wnr-purple"
+                        )}
+                      />
                       <span>Landlord</span>
                     </div>
                   </FormRadioItem>
                   <FormRadioItem value={RentType.Agent} field={field}>
                     <div className="flex items-center gap-2">
-                      <FaUserTie className="w-4 h-4" />
+                      <FaUserTie
+                        className={cn(
+                          "w-4 h-4",
+                          field.value === RentType.Agent && "text-wnr-purple"
+                        )}
+                      />
                       <span>Agent</span>
                     </div>
                   </FormRadioItem>
@@ -156,8 +173,8 @@ const BasicDetails = () => {
         </FormScrollableArea>
 
         <FormAction>
-          <div className="px-6">
-            <Button type="submit" className="w-full">
+          <div className="px-6 lg:px-0">
+            <Button type="submit" size={"lg"} className="w-full">
               Next, Add Landlord Details
             </Button>
           </div>

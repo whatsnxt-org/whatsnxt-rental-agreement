@@ -29,7 +29,7 @@ export const FormCheckbox = <T extends FieldValues>({
             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
           </FormControl>
           <div className="space-y-1 leading-none">
-            <FormLabel className="cursor-pointer">{label}</FormLabel>
+            <FormLabel className="cursor-pointer text-sm">{label}</FormLabel>
           </div>
         </FormItem>
       )}
