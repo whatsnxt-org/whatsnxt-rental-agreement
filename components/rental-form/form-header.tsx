@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 export const FormHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-[5rem] w-full lg:max-w-[480px] mx-auto bg-white shadow-md lg:shadow-none">
+    <div className="h-[5rem] w-full lg:max-w-[480px] mx-auto bg-inherit shadow-md lg:shadow-none">
       <div className="flex h-full items-center">{children}</div>
     </div>
   );
