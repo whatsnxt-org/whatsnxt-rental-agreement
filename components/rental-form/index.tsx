@@ -8,11 +8,11 @@ import Summary from "@/components/rental-form/steps/summary";
 
 const RentalForm = () => {
   const currentStep = useSteps().currentStep;
-  const step = stepsData[currentStep].component;
 
-  const lastStep = currentStep === stepsData.length - 1;
-
+  const lastStep = currentStep === stepsData.length;
   if (lastStep) return <Summary />;
+
+  const step = stepsData[currentStep].component;
   return (
     <>
       <IsBrowser>
