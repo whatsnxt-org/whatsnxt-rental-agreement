@@ -23,6 +23,8 @@ export type FormStore = {
   propertyDetails: PropertyDetails;
   contractDetails: ContractDetails;
   itemsList: ItemsListStore;
+  photocopy: boolean;
+  updatePhotocopy: (value: boolean) => void;
 };
 
 export type TSet = (
@@ -34,6 +36,8 @@ export type TSet = (
 ) => void;
 
 const useFormStore = create<FormStore>((set) => ({
+  photocopy: false,
+  updatePhotocopy: (value) => set((prev) => ({ ...prev, photocopy: value })),
   steps: stepsStore(set),
   basicDetails: basicDetailsStore(set),
   landlordDetails: landlordDetailsStore(set),

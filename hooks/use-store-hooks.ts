@@ -11,3 +11,8 @@ export const usePropertyDetails = () =>
 export const useContractDetails = () =>
   useStore((state) => state.contractDetails);
 export const useItemsList = () => useStore((state) => state.itemsList);
+export const usePhotocopy = () =>
+  useStore((state) => ({
+    photocopy: state.photocopy,
+    updatePhotocopy: state.updatePhotocopy,
+  }));
