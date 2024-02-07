@@ -13,7 +13,7 @@ const PropertyDetailsWidget = () => {
   const {
     address: _address,
     space,
-    houseNo,
+    floor,
     sameLandlordAddress,
   } = usePropertyDetails();
   const { landlords } = useLandlordDetails();
@@ -29,7 +29,7 @@ const PropertyDetailsWidget = () => {
         <span className="text-foreground text-base capitalize">{address}</span>
 
         <span className="whitespace-break-spaces">
-          {`${houseNo && `House No. ${houseNo}   *  `}${space}`}
+          {`Floor No. ${floor}   *   ${space}`}
         </span>
       </div>
     </DetailsWidget>

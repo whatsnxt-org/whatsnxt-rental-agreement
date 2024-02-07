@@ -13,7 +13,12 @@ import {
 } from "@/components/ui/form-radio-group";
 import { propertySpaces } from "@/constants/property-spaces";
 import { stepsData } from "@/constants/steps-data";
-import { usePropertyDetails, useSteps } from "@/hooks/use-store-hooks";
+import {
+  useBasicDetails,
+  useLandlordDetails,
+  usePropertyDetails,
+  useSteps,
+} from "@/hooks/use-store-hooks";
 import {
   PropertyDetailsSchema,
   propertyDetailsSchema,
@@ -21,17 +26,25 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import FloorPickerDropdown from "../floor-picker-dropdown";
 
 const PropertyDetails = () => {
   const propertyDetails = usePropertyDetails();
+  const landlorsDetails = useLandlordDetails();
+  const basicDetails = useBasicDetails();
+
   const { nextStep, currentStep, prevStep } = useSteps();
 
   const form = useForm<PropertyDetailsSchema>({
     resolver: zodResolver(propertyDetailsSchema),
     defaultValues: propertyDetails,
+    mode: "onChange",
   });
 
+  const floorNo = form.watch("floor");
+
   const isSameLandlordAddress = form.watch("sameLandlordAddress");
+  const address = form.watch("address");
 
   const onSubmit = (data: PropertyDetailsSchema) => {
     propertyDetails.updateForm(data);
@@ -39,7 +52,12 @@ const PropertyDetails = () => {
   };
 
   useEffect(() => {
-    if (isSameLandlordAddress) form.clearErrors();
+    form.setValue(
+      "address",
+      isSameLandlordAddress ? landlorsDetails.landlords[0].permenantAddress : ""
+    );
+    form.setFocus("address");
+    if (isSameLandlordAddress) form.clearErrors("address");
   }, [isSameLandlordAddress]);
 
   return (
@@ -60,8 +78,30 @@ const PropertyDetails = () => {
           <div className="px-6 lg:px-0 space-y-4 pb-6">
             <FormRadioGroup
               control={form.control}
+              name="floor"
+              label="Floor No."
+              className="relative grid grid-cols-6 gap-x-4 gap-y-1 items-center"
+              render={(field) => (
+                <>
+                  {["G", "1", "2", "3"].map((value) => (
+                    <FormRadioItem key={value} value={value} field={field}>
+                      {value}
+                    </FormRadioItem>
+                  ))}
+
+                  <FloorPickerDropdown
+                    field={field}
+                    isSelected={!["G", "1", "2", "3"].includes(floorNo)}
+                    floorNo={floorNo}
+                  />
+                </>
+              )}
+            />
+
+            <FormRadioGroup
+              control={form.control}
               name="space"
-              label="Property Space"
+              label="Choose BHK"
               className="grid grid-cols-3 gap-x-4 gap-y-1"
               render={(field) => (
                 <>
@@ -82,43 +122,40 @@ const PropertyDetails = () => {
 
             <FormInput
               control={form.control}
+              name="address"
+              placeholder="Property Address"
+              onChange={() => form.setValue("sameLandlordAddress", false)}
+            />
+
+            <FormInput
+              control={form.control}
               name="houseNo"
               placeholder="House No."
-              disabled={isSameLandlordAddress}
-            />
-
-            <FormInput
-              control={form.control}
-              name="city"
-              placeholder="City"
-              disabled={isSameLandlordAddress}
-            />
-
-            <FormInput
-              control={form.control}
-              name="address"
-              placeholder="Address"
-              disabled={isSameLandlordAddress}
             />
 
             <FormInput
               control={form.control}
               name="locality"
               placeholder="Locality"
-              disabled={isSameLandlordAddress}
             />
 
             <FormInput
               control={form.control}
               name="pincode"
               placeholder="Pin Code"
-              disabled={isSameLandlordAddress}
+            />
+
+            <FormInput
+              control={form.control}
+              name="city"
+              placeholder={`${basicDetails.state} (${basicDetails.city})`}
+              disabled={true}
             />
           </div>
         </FormScrollableArea>
 
         <FormAction>
-          <div className="px-6">
+          <div className="px-6 lg:px-0">
             <Button type="submit" className="w-full">
               Next, Add Contract Details
             </Button>

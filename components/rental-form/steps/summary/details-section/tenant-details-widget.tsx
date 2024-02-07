@@ -9,8 +9,8 @@ import ShowDetailsToggler from "./show-details-toggler";
 const TenantDetailsWidget = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { setStep } = useSteps();
-  const { fullname, phoneNo, email, permenantAddress } = useTenantDetails();
-
+  const { tenants } = useTenantDetails();
+  const { email, fullname, permenantAddress, phoneNo } = tenants[0];
   return (
     <DetailsWidget
       icon={<LiaUserAstronautSolid className="w-5 h-5" />}

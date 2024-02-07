@@ -27,7 +27,7 @@ const ItemsListWidget = () => {
               <div key={field}>
                 <span className="capitalize whitespace-break-spaces">{`${field}  -  ${items[field]}`}</span>
                 {filteredListFields.length - 1 > i && (
-                  <span className="whitespace-break-spaces">{`   /`}</span>
+                  <span className="whitespace-break-spaces">{`, `}</span>
                 )}
               </div>
             ))}

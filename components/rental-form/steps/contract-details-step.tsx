@@ -78,18 +78,20 @@ const ContractDeatils = () => {
                 description="You will need to renew this agreement after 11 month from the date of agreement"
               />
 
-              <FormInput
-                control={form.control}
-                name="monthlyRent"
-                placeholder="Monthly Rent"
-              />
-
-              <div className="py-2">
-                <FormCheckbox
+              <div>
+                <FormInput
                   control={form.control}
-                  name="tenantCharges"
-                  label="Electricity/Water charges will be paid by the tenant/s"
+                  name="monthlyRent"
+                  placeholder="Monthly Rent"
                 />
+
+                <div className="py-2">
+                  <FormCheckbox
+                    control={form.control}
+                    name="tenantCharges"
+                    label="Electricity/Water charges will be paid by the tenant/s"
+                  />
+                </div>
               </div>
 
               <FormSelect
@@ -137,12 +139,15 @@ const ContractDeatils = () => {
                   name="increaseRent"
                   label="Increase rent after 11 months"
                 />
-                <FormInput
-                  control={form.control}
-                  name="increaseRentPercentage"
-                  placeholder="Increase Percentage (%)"
-                  disabled={!isIncreasedRent}
-                />
+
+                {isIncreasedRent && (
+                  <FormInput
+                    control={form.control}
+                    name="increaseRentPercentage"
+                    placeholder="Increase Percentage (%)"
+                    disabled={!isIncreasedRent}
+                  />
+                )}
               </div>
 
               {clauses.map((_, i) => (

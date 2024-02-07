@@ -13,45 +13,99 @@ import {
 import { FormSelect, FormSelectItem } from "@/components/ui/form-select";
 import { states } from "@/constants/states";
 import { stepsData } from "@/constants/steps-data";
-import { useStore } from "@/hooks/use-store-hooks";
-import { cn } from "@/lib/utils";
+import {
+  useBasicDetails,
+  useLandlordDetails,
+  useSteps,
+  useTenantDetails,
+} from "@/hooks/use-store-hooks";
+import { cn, isEmptyString } from "@/lib/utils";
 import {
   BasicDetailsSchema,
   basicDetailsSchema,
 } from "@/lib/validations/basic-details-schema";
 import { RentType } from "@/store/basic-details-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FaUserTie } from "react-icons/fa6";
 import { LiaUserAstronautSolid } from "react-icons/lia";
 import { TfiUser } from "react-icons/tfi";
 
 const BasicDetails = () => {
+  const basicDetails = useBasicDetails();
+  const { nextStep, currentStep } = useSteps();
   const {
-    basicDetails,
-    steps: { nextStep, currentStep },
-  } = useStore((state) => ({
-    basicDetails: state.basicDetails,
-    steps: state.steps,
-  }));
+    reset: resetLandlords,
+    updateForm: updateLandlords,
+    landlords,
+  } = useLandlordDetails();
+  const {
+    reset: resetTenants,
+    updateForm: updateTenants,
+    tenants,
+  } = useTenantDetails();
 
   const form = useForm<BasicDetailsSchema>({
     resolver: zodResolver(basicDetailsSchema),
     defaultValues: basicDetails,
-    mode: "onBlur",
+    mode: "onChange",
   });
 
+  const currentRentType = form.watch("type");
   const currentState = form.watch("state");
+
   const cities = useMemo(
     () => states.find((state) => state.name === currentState)?.cities ?? [],
     [currentState]
   );
 
+  const updateLandlordAndTenant = () => {
+    const { fullname, email, phoneNo, type: rentType } = form.getValues();
+    if (rentType === RentType.Agent) return;
+
+    if (rentType === RentType.Tenant) {
+      const mainTenant = tenants[0];
+      updateTenants(0, {
+        fullname: isEmptyString(mainTenant.fullname)
+          ? fullname
+          : mainTenant.fullname,
+        email: isEmptyString(mainTenant.email) ? email : mainTenant.email,
+        phoneNo: isEmptyString(mainTenant.phoneNo)
+          ? phoneNo
+          : mainTenant.phoneNo,
+      });
+    }
+
+    if (rentType === RentType.LandLord) {
+      const mainLandlord = landlords[0];
+
+      updateLandlords(0, {
+        fullname: isEmptyString(mainLandlord.fullname)
+          ? fullname
+          : mainLandlord.fullname,
+        email: isEmptyString(mainLandlord.email) ? email : mainLandlord.email,
+        phoneNo: isEmptyString(mainLandlord.phoneNo)
+          ? phoneNo
+          : mainLandlord.phoneNo,
+      });
+    }
+  };
+
   const onSubmit = (data: BasicDetailsSchema) => {
+    updateLandlordAndTenant();
     basicDetails.updateForm(data);
     nextStep();
   };
+
+  // Reset the form on changing rent type
+  useEffect(() => {
+    if (currentRentType !== basicDetails.type) {
+      console.log("rent type changed");
+      resetLandlords();
+      resetTenants();
+    }
+  }, [currentRentType]);
 
   return (
     <Form {...form}>

@@ -7,11 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/ui/form-input";
 import { stepsData } from "@/constants/steps-data";
-import {
-  useLandlordDetails,
-  useSteps,
-  useStore,
-} from "@/hooks/use-store-hooks";
+import { useLandlordDetails, useSteps } from "@/hooks/use-store-hooks";
 import {
   LandLordSchema,
   LandlordsSchema,
@@ -54,15 +50,6 @@ const LandLordDetails = () => {
           <div className="px-6 lg:px-0 space-y-4 pb-6">
             {landlords.map((_, i) => (
               <div key={i}>
-                {i !== 0 && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">{`Landlord ${i + 1}`}</span>
-                    <span className="text-sm text-wnr-purple cursor-pointer">
-                      Remove
-                    </span>
-                  </div>
-                )}
-
                 <LandlordForm
                   index={i}
                   errors={form.formState.errors?.landlords?.[i]}
@@ -109,10 +96,8 @@ const LandlordForm = ({
   index: number;
   errors?: LandlordFormError;
 }) => {
-  const { landlord, updateForm } = useStore((state) => ({
-    landlord: state.landlordDetails.landlords[index],
-    updateForm: state.landlordDetails.updateForm,
-  }));
+  const { landlords, updateForm, removeOwner } = useLandlordDetails();
+  const landlord = landlords[index];
 
   const form = useForm<LandLordSchema>({
     resolver: zodResolver(landlordSchema),
@@ -120,6 +105,7 @@ const LandlordForm = ({
     mode: "onChange",
   });
 
+  // setting errors when submitting
   useEffect(() => {
     if (errors) {
       Object.keys(errors).map((key) =>
@@ -130,55 +116,79 @@ const LandlordForm = ({
     }
   }, [errors]);
 
+  useEffect(() => {
+    form.setValue("fullname", landlord.fullname);
+    form.setValue("email", landlord.email);
+    form.setValue("panNo", landlord.panNo);
+    form.setValue("parentName", landlord.parentName);
+    form.setValue("permenantAddress", landlord.permenantAddress);
+    form.setValue("phoneNo", landlord.phoneNo);
+  }, [landlords]);
+
   return (
-    <div className="px-6 py-2 rounded-lg border">
-      <Form {...form}>
-        <form className="space-y-2">
-          <FormInput
-            control={form.control}
-            name="fullname"
-            placeholder="Full Name"
-            onChange={(value) => updateForm(index, { fullname: value })}
-          />
+    <>
+      {index !== 0 && (
+        <div className="flex items-center justify-between">
+          <span className="text-sm">{`Landlord ${index + 1}`}</span>
+          <span
+            className="text-sm text-wnr-purple cursor-pointer"
+            onClick={() => removeOwner(index)}
+          >
+            Remove
+          </span>
+        </div>
+      )}
+      <div className="px-6 py-2 rounded-lg border">
+        <Form {...form}>
+          <form className="space-y-2">
+            <FormInput
+              control={form.control}
+              name="fullname"
+              placeholder="Full Name"
+              onChange={(value) => updateForm(index, { fullname: value })}
+            />
 
-          <FormInput
-            control={form.control}
-            name="parentName"
-            placeholder="Father/Mother Name"
-            onChange={(value) => updateForm(index, { parentName: value })}
-          />
+            <FormInput
+              control={form.control}
+              name="parentName"
+              placeholder="Father/Mother Name"
+              onChange={(value) => updateForm(index, { parentName: value })}
+            />
 
-          <FormInput
-            control={form.control}
-            name="phoneNo"
-            placeholder="Phone Number"
-            onChange={(value) => updateForm(index, { phoneNo: value })}
-          />
+            <FormInput
+              control={form.control}
+              name="phoneNo"
+              placeholder="Phone Number"
+              onChange={(value) => updateForm(index, { phoneNo: value })}
+            />
 
-          <FormInput
-            control={form.control}
-            name="email"
-            placeholder="Email"
-            type="email"
-            onChange={(value) => updateForm(index, { email: value })}
-          />
+            <FormInput
+              control={form.control}
+              name="email"
+              placeholder="Email"
+              type="email"
+              onChange={(value) => updateForm(index, { email: value })}
+            />
 
-          <FormInput
-            control={form.control}
-            name="permenantAddress"
-            placeholder="Permenant Address"
-            onChange={(value) => updateForm(index, { permenantAddress: value })}
-          />
+            <FormInput
+              control={form.control}
+              name="permenantAddress"
+              placeholder="Permenant Address"
+              onChange={(value) =>
+                updateForm(index, { permenantAddress: value })
+              }
+            />
 
-          <FormInput
-            control={form.control}
-            name="panNo"
-            placeholder="Pan No. (optional)"
-            onChange={(value) => updateForm(index, { panNo: value })}
-          />
-        </form>
-      </Form>
-    </div>
+            <FormInput
+              control={form.control}
+              name="panNo"
+              placeholder="Pan No. (optional)"
+              onChange={(value) => updateForm(index, { panNo: value })}
+            />
+          </form>
+        </Form>
+      </div>
+    </>
   );
 };
 export default LandLordDetails;
