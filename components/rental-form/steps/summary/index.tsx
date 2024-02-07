@@ -36,7 +36,7 @@ const Summary = () => {
         {!isDesktop && <MobilePreviewWidget />}
 
         {/* // Details */}
-        <div className="flex flex-col items-start lg:flex-row gap-4">
+        <div className="pb-12 flex flex-col items-start lg:flex-row gap-4">
           <div className="w-full">
             <DetailsSection />
           </div>
