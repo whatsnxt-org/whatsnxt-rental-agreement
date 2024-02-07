@@ -14,7 +14,9 @@ const Input = React.forwardRef<
   const [isFocused, setIsFocused] = React.useState(false);
 
   React.useEffect(() => {
-    if (innerRef.current?.value !== "") setIsFocused(true);
+    if (innerRef.current?.value !== "") {
+      setIsFocused(true);
+    }
   }, []);
 
   return (

@@ -44,19 +44,22 @@ RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
 export const CustomRadioGroupLabel = ({
   children,
+  className,
   isSelected,
-}: {
-  children?: React.ReactNode;
+  ...props
+}: React.ComponentPropsWithRef<"div"> & {
   isSelected: boolean;
 }) => (
   <div
     className={cn(
-      "w-full px-2 max-w-40 h-[3.5rem] rounded-xl border border-muted cursor-pointer",
-      isSelected && "bg-muted/25"
+      "w-full px-2 max-w-48 h-[3.5rem] rounded-xl border border-muted cursor-pointer",
+      isSelected && "bg-muted/25",
+      className
     )}
+    {...props}
   >
     <div className="flex h-full items-center justify-center">
-      <div className="flex gap-2 items-center">{children}</div>
+      <div className="justify-center flex gap-2 items-center">{children}</div>
     </div>
   </div>
 );

@@ -60,6 +60,7 @@ export const FormRadioGroup = <T extends FieldValues>({
 };
 
 type FormRadioItem<T extends FieldValues> = {
+  onClick?: () => void;
   field: ControllerRenderProps<T, Path<T>>;
   value: string;
   children: ReactNode;
@@ -68,6 +69,7 @@ type FormRadioItem<T extends FieldValues> = {
 export const FormRadioItem = <T extends FieldValues>({
   field,
   value,
+  onClick,
   children,
 }: FormRadioItem<T>) => (
   <FormItem className="flex items-center">
@@ -75,7 +77,10 @@ export const FormRadioItem = <T extends FieldValues>({
       <RadioGroupItem value={value} />
     </FormControl>
     <FormLabel className="w-full text-sm">
-      <CustomRadioGroupLabel isSelected={value === field.value}>
+      <CustomRadioGroupLabel
+        isSelected={value === field.value}
+        onClick={onClick}
+      >
         {children}
       </CustomRadioGroupLabel>
     </FormLabel>

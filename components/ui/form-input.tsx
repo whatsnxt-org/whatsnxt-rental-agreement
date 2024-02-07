@@ -36,7 +36,7 @@ export const FormInput = <T extends FieldValues>({
             <CustomInput
               type={type}
               placeholder={placeholder}
-              className={cn("bg-inherit", disabled && "bg-muted")}
+              className={cn("bg-inherit disabled:cursor-default")}
               {...field}
               error={invalid}
               disabled={disabled}
