@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  panNoSchema,
   requiredEmailSchema,
   requiredPhoneNoSchema,
   requiredStringSchema,
@@ -11,6 +12,11 @@ export const tenantSchema = z.object({
   email: requiredEmailSchema,
   phoneNo: requiredPhoneNoSchema,
   permenantAddress: requiredStringSchema,
-  panNo: z.string().optional(),
+  panNo: panNoSchema,
 });
 export type TenantSchema = z.infer<typeof tenantSchema>;
+
+export const tenantsSchema = z.object({
+  tenants: z.array(tenantSchema),
+});
+export type TenantsSchema = z.infer<typeof tenantsSchema>;

@@ -10,3 +10,14 @@ export const requiredPhoneNoSchema = z.coerce
 export const requiredIntSchema = z.coerce
   .string()
   .refine((value) => isPositiveInt(value), "Invalid value");
+
+export const panNoSchema = z.preprocess(
+  (value) => (typeof value === "string" && value === "" ? undefined : value),
+  z.coerce
+    .string()
+    .optional()
+    .refine(
+      (value) => typeof value === "undefined" || isPositiveInt(value),
+      "Invalid Pan No."
+    )
+);

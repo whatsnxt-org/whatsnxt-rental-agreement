@@ -1,9 +1,11 @@
 import { z } from "zod";
 import {
+  panNoSchema,
   requiredEmailSchema,
   requiredPhoneNoSchema,
   requiredStringSchema,
 } from "./shared";
+import { isUniqueValue } from "../utils";
 
 export const landlordSchema = z.object({
   fullname: requiredStringSchema,
@@ -11,7 +13,7 @@ export const landlordSchema = z.object({
   email: requiredEmailSchema,
   phoneNo: requiredPhoneNoSchema,
   permenantAddress: requiredStringSchema,
-  panNo: z.string().optional(),
+  panNo: panNoSchema,
 });
 export type LandLordSchema = z.infer<typeof landlordSchema>;
 
