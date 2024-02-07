@@ -28,7 +28,7 @@ const basicDetailsStore = (set: TSet) => ({
   fullname: "",
   phoneNo: "",
   state: "",
-  type: RentType.Tenant,
+  type: RentType.LandLord,
   stamp: "₹ 100",
   updateForm: (data: Partial<BasicDetailsInputs>) => {
     set((prev) => ({

@@ -6,7 +6,9 @@ import { TSet } from "./form-store";
 export type LandlordDetails = {
   landlords: LandLordSchema[];
   updateForm: LandlordDetailsUpdate;
+  reset: () => void;
   addOwner: () => void;
+  removeOwner: (index: number) => void;
 };
 
 type LandlordDetailsUpdate = (
@@ -23,7 +25,7 @@ const defaultLandlord = {
   panNo: "",
 };
 
-const landlordDetailsStore = (set: TSet) => ({
+const landlordDetailsStore = (set: TSet): LandlordDetails => ({
   landlords: [defaultLandlord],
   updateForm: (index: number, landlord: Partial<LandLordSchema>) =>
     set((prev) => {
@@ -34,9 +36,15 @@ const landlordDetailsStore = (set: TSet) => ({
         landlordDetails: { ...prev.landlordDetails, landlords: newLandlords },
       };
     }),
-
+  reset: () =>
+    set((prev) => ({
+      ...prev,
+      landlordDetails: {
+        ...prev.landlordDetails,
+        landlords: [defaultLandlord],
+      },
+    })),
   addOwner: () => {
-    console.log("add owner");
     set((prev) => ({
       ...prev,
       landlordDetails: {
@@ -45,6 +53,19 @@ const landlordDetailsStore = (set: TSet) => ({
       },
     }));
   },
+
+  removeOwner: (index: number) =>
+    set((prev) => {
+      const newLandlordsArr = [...prev.landlordDetails.landlords];
+      newLandlordsArr.splice(index, 1);
+      return {
+        ...prev,
+        landlordDetails: {
+          ...prev.landlordDetails,
+          landlords: newLandlordsArr,
+        },
+      };
+    }),
 });
 
 export default landlordDetailsStore;

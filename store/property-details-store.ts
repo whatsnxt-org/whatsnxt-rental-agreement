@@ -8,6 +8,7 @@ export type PropertyDetails = PropertyDetailsSchema & {
 };
 
 const defaultProperty = {
+  floor: "G",
   space: "1 RK",
   sameLandlordAddress: false,
   houseNo: "",
