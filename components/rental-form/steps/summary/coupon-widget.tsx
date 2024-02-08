@@ -17,7 +17,7 @@ const CouponWidget = () => {
   }, [open]);
 
   return (
-    <div className="rounded-lg bg-inherit lg:bg-wnr-purple/15">
+    <div className="rounded-lg bg-inherit lg:bg-border">
       <div className="lg:px-4 lg:py-4 lg:pb-6 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

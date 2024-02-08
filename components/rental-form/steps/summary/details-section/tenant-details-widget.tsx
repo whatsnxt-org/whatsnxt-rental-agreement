@@ -10,7 +10,8 @@ const TenantDetailsWidget = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { setStep } = useSteps();
   const { tenants } = useTenantDetails();
-  const { email, fullname, permenantAddress, phoneNo } = tenants[0];
+  // const { email, fullname, permenantAddress, phoneNo } = tenants[0];
+  const foldedTitle = tenants.map((tenant) => tenant.fullname).join("   •   ");
   return (
     <DetailsWidget
       icon={<LiaUserAstronautSolid className="w-5 h-5" />}
@@ -18,20 +19,45 @@ const TenantDetailsWidget = () => {
       onChange={() => setStep(2)}
     >
       <div className="flex flex-col gap-2 text-muted-foreground text-xs font-semibold">
-        <span className="text-foreground text-base capitalize">{fullname}</span>
-        {showDetails && (
-          <>
-            <span className="capitalize">{permenantAddress}</span>
-            <span className="whitespace-break-spaces">
-              {`${phoneNo}   *   ${email}`}
-            </span>
-          </>
+        {!showDetails && (
+          <span className="text-foreground text-base capitalize">
+            {foldedTitle}
+          </span>
         )}
 
+        {showDetails &&
+          tenants.map((tenant, i) => (
+            <Tenant key={`tenant-${i}`} {...tenant} />
+          ))}
         <ShowDetailsToggler show={showDetails} toggleShow={setShowDetails} />
       </div>
     </DetailsWidget>
   );
 };
+
+const Tenant = ({
+  fullname,
+  parentName,
+  phoneNo,
+  email,
+  permenantAddress,
+}: {
+  fullname: string;
+  phoneNo: string;
+  email: string;
+  parentName: string;
+  permenantAddress: string;
+}) => (
+  <div className="flex flex-col gap-2 text-muted-foreground text-xs font-semibold">
+    <span className="text-foreground text-base capitalize">{fullname}</span>
+
+    <span className="capitalize whitespace-break-spaces">{`S/O   D/O   ${parentName}`}</span>
+
+    <span className="whitespace-break-spaces">
+      {`${phoneNo}   •   ${email}`}
+    </span>
+    <span className="capitalize">{permenantAddress}</span>
+  </div>
+);
 
 export default TenantDetailsWidget;

@@ -156,7 +156,7 @@ const PropertyDetails = () => {
 
         <FormAction>
           <div className="px-6 lg:px-0">
-            <Button type="submit" className="w-full">
+            <Button type="submit" size={"lg"} className="w-full">
               Next, Add Contract Details
             </Button>
           </div>

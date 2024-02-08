@@ -15,7 +15,7 @@ const DetailsWidget = ({
   onChange,
   children,
 }: DetailsWidgetProps) => (
-  <section className="w-full bg-white rounded-lg shadow-md">
+  <section className="w-full bg-white rounded-lg border">
     <div className="p-4 space-y-4">
       {/* // header */}
       <div className="flex items-center justify-between">

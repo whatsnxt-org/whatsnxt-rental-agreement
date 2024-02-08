@@ -21,7 +21,7 @@ const Summary = () => {
             variant={"ghost"}
             size={"icon"}
             type="button"
-            className="px-0 w-10 h-10 justify-start rounded-full"
+            className="px-0 w-10 h-10 justify-center rounded-full"
             onClick={prevStep}
           >
             <ArrowLeft />

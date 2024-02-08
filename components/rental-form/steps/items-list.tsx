@@ -87,7 +87,7 @@ const ItemsList = () => {
 
       <FormAction>
         <div className="px-6 lg:px-0">
-          <Button className="w-full" onClick={() => nextStep()}>
+          <Button className="w-full" size={"lg"} onClick={() => nextStep()}>
             Next
           </Button>
         </div>
@@ -106,14 +106,14 @@ const Counter = ({ value, onDecrement, onIncrement }: CounterProps) => (
     <div>
       {value > 0 && (
         <Button variant={"secondary"} size={"icon"} onClick={onDecrement}>
-          <Minus className="w-5 h-5" />
+          <Minus className="w-5 h-5 text-wnr-purple" />
         </Button>
       )}
     </div>
     <div>{value > 0 && <span>{value}</span>}</div>
 
     <Button variant={"secondary"} size={"icon"} onClick={onIncrement}>
-      <Plus className="w-5 h-5" />
+      <Plus className="w-5 h-5 text-wnr-purple" />
     </Button>
   </div>
 );

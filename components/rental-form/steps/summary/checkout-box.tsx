@@ -8,14 +8,14 @@ import { usePhotocopy } from "@/hooks/use-store-hooks";
 
 const CheckoutBox = () => {
   const { isDesktop } = useScreen();
-  const { photocopy } = usePhotocopy();
-  const totalValue = photocopy ? "₹949" : "₹699";
+  const { photocopyValue } = usePhotocopy();
+  const totalValue = `₹${699 + photocopyValue}`;
   return (
     <section className="w-full max-w-sm flex flex-col lg:flex-col-reverse gap-4">
       {/* // Coupon Widget */}
       <CouponWidget />
 
-      <div className="rounded-lg bg-inherit lg:bg-wnr-purple/15">
+      <div className="rounded-xl bg-inherit lg:bg-border">
         <div className="p-0 lg:p-4">
           {/* // Total Amount */}
           <div className="space-y-6">
