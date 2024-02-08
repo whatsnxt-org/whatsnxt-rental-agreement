@@ -5,18 +5,13 @@ import { TSet } from "./form-store";
 
 export type LandlordDetails = {
   landlords: LandLordSchema[];
-  updateForm: LandlordDetailsUpdate;
+  updateForm: (landlords: LandLordSchema[]) => void;
   reset: () => void;
   addOwner: () => void;
   removeOwner: (index: number) => void;
 };
 
-type LandlordDetailsUpdate = (
-  index: number,
-  landlords: Partial<LandLordSchema>
-) => void;
-
-const defaultLandlord = {
+export const defaultLandlord = {
   fullname: "",
   parentName: "",
   phoneNo: "",
@@ -27,15 +22,11 @@ const defaultLandlord = {
 
 const landlordDetailsStore = (set: TSet): LandlordDetails => ({
   landlords: [defaultLandlord],
-  updateForm: (index: number, landlord: Partial<LandLordSchema>) =>
-    set((prev) => {
-      const newLandlords = [...prev.landlordDetails.landlords];
-      newLandlords[index] = { ...newLandlords[index], ...landlord };
-      return {
-        ...prev,
-        landlordDetails: { ...prev.landlordDetails, landlords: newLandlords },
-      };
-    }),
+  updateForm: (landlords: LandLordSchema[]) =>
+    set((prev) => ({
+      ...prev,
+      landlordDetails: { ...prev.landlordDetails, landlords },
+    })),
   reset: () =>
     set((prev) => ({
       ...prev,

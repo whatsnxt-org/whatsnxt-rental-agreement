@@ -17,24 +17,40 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useEffect } from "react";
-import { FieldError, FieldErrorsImpl, Merge, useForm } from "react-hook-form";
+import {
+  Control,
+  FieldError,
+  FieldErrorsImpl,
+  Merge,
+  useForm,
+} from "react-hook-form";
+import { defaultTenant } from "@/store/tenant-details-store";
 
 const TenantDetails = () => {
   const { currentStep, nextStep, prevStep } = useSteps();
-  const { tenants, addTenant } = useTenantDetails();
+  const { tenants: storeTenants, updateForm } = useTenantDetails();
 
   const form = useForm<TenantsSchema>({
     resolver: zodResolver(tenantsSchema),
-    defaultValues: { tenants },
+    defaultValues: { tenants: storeTenants },
   });
 
-  useEffect(() => {
-    form.setValue("tenants", tenants);
-  }, [tenants]);
+  const tenants = form.watch("tenants");
+
+  const handleSubmit = ({ tenants }: TenantsSchema) => {
+    updateForm(tenants);
+    nextStep();
+  };
+
+  const handleRemove = (index: number) => {
+    const newTenantsArr = [...form.getValues("tenants")];
+    newTenantsArr.splice(index, 1);
+    form.setValue("tenants", newTenantsArr);
+  };
 
   return (
-    <>
-      <div className="h-full">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full">
         <FormHeader>
           <FormTitle
             currentStep={currentStep + 1}
@@ -52,7 +68,8 @@ const TenantDetails = () => {
               <div key={i}>
                 <TenantForm
                   index={i}
-                  errors={form.formState.errors?.tenants?.[i]}
+                  control={form.control}
+                  onRemove={handleRemove}
                 />
               </div>
             ))}
@@ -63,7 +80,12 @@ const TenantDetails = () => {
               variant={"ghost"}
               type="button"
               className="text-wnr-purple rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-wnr-purple focus-visible:text-wnr-purple p-0 flex items-center"
-              onClick={() => addTenant()}
+              onClick={() =>
+                form.setValue("tenants", [
+                  ...form.getValues("tenants"),
+                  { ...defaultTenant },
+                ])
+              }
             >
               <Plus className="w-3 h-3" strokeWidth={3} />
               <span>Add Tenant</span>
@@ -73,57 +95,25 @@ const TenantDetails = () => {
 
         <FormAction>
           <div className="px-6 lg:px-0">
-            <Button
-              type="button"
-              size={"lg"}
-              className="w-full"
-              onClick={form.handleSubmit(nextStep)}
-            >
+            <Button type="submit" size={"lg"} className="w-full">
               Next, Add Property Details
             </Button>
           </div>
         </FormAction>
-      </div>
-    </>
+      </form>
+    </Form>
   );
 };
 
-type TenantFormError = Merge<FieldError, FieldErrorsImpl<TenantSchema>>;
 const TenantForm = ({
   index,
-  errors,
+  control,
+  onRemove,
 }: {
   index: number;
-  errors?: TenantFormError;
+  control: Control<TenantsSchema, any>;
+  onRemove: (index: number) => void;
 }) => {
-  const { tenants, updateForm, removeTenant } = useTenantDetails();
-  const tenant = tenants[index];
-
-  const form = useForm<TenantSchema>({
-    resolver: zodResolver(tenantSchema),
-    defaultValues: tenant,
-    mode: "onChange",
-  });
-
-  useEffect(() => {
-    if (errors) {
-      Object.keys(errors).map((key) =>
-        form.setError(key as keyof TenantSchema, {
-          message: errors?.[key as keyof TenantSchema]?.message,
-        })
-      );
-    }
-  }, [errors]);
-
-  useEffect(() => {
-    form.setValue("fullname", tenant.fullname);
-    form.setValue("email", tenant.email);
-    form.setValue("panNo", tenant.panNo);
-    form.setValue("parentName", tenant.parentName);
-    form.setValue("permenantAddress", tenant.permenantAddress);
-    form.setValue("phoneNo", tenant.phoneNo);
-  }, [tenants]);
-
   return (
     <>
       {index !== 0 && (
@@ -131,61 +121,51 @@ const TenantForm = ({
           <span className="text-sm">{`Tenant ${index + 1}`}</span>
           <span
             className="text-sm text-wnr-purple cursor-pointer"
-            onClick={() => removeTenant(index)}
+            onClick={() => onRemove(index)}
           >
             Remove
           </span>
         </div>
       )}
       <div className="px-6 py-2 rounded-lg border">
-        <Form {...form}>
-          <form className="space-y-2">
-            <FormInput
-              control={form.control}
-              name="fullname"
-              placeholder="Full Name"
-              onChange={(value) => updateForm(index, { fullname: value })}
-            />
+        <div className="space-y-2">
+          <FormInput
+            control={control}
+            name={`tenants.${index}.fullname`}
+            placeholder="Full Name"
+          />
 
-            <FormInput
-              control={form.control}
-              name="parentName"
-              placeholder="Father/Mother Name"
-              onChange={(value) => updateForm(index, { parentName: value })}
-            />
+          <FormInput
+            control={control}
+            name={`tenants.${index}.parentName`}
+            placeholder="Father/Mother Name"
+          />
 
-            <FormInput
-              control={form.control}
-              name="phoneNo"
-              placeholder="Phone Number"
-              onChange={(value) => updateForm(index, { phoneNo: value })}
-            />
+          <FormInput
+            control={control}
+            name={`tenants.${index}.phoneNo`}
+            placeholder="Phone Number"
+          />
 
-            <FormInput
-              control={form.control}
-              name="email"
-              placeholder="Email"
-              type="email"
-              onChange={(value) => updateForm(index, { email: value })}
-            />
+          <FormInput
+            control={control}
+            name={`tenants.${index}.email`}
+            placeholder="Email"
+            type="email"
+          />
 
-            <FormInput
-              control={form.control}
-              name="permenantAddress"
-              placeholder="Permenant Address"
-              onChange={(value) =>
-                updateForm(index, { permenantAddress: value })
-              }
-            />
+          <FormInput
+            control={control}
+            name={`tenants.${index}.permenantAddress`}
+            placeholder="Permenant Address"
+          />
 
-            <FormInput
-              control={form.control}
-              name="panNo"
-              placeholder="Pan No. (optional)"
-              onChange={(value) => updateForm(index, { panNo: value })}
-            />
-          </form>
-        </Form>
+          <FormInput
+            control={control}
+            name={`tenants.${index}.panNo`}
+            placeholder="Pan No. (optional)"
+          />
+        </div>
       </div>
     </>
   );

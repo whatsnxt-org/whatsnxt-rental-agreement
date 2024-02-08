@@ -5,7 +5,7 @@ import { TSet } from "./form-store";
 
 export type TenantDetails = {
   tenants: TenantSchema[];
-  updateForm: (index: number, tenant: Partial<TenantSchema>) => void;
+  updateForm: (tenants: TenantSchema[]) => void;
   reset: () => void;
   addTenant: () => void;
   removeTenant: (index: number) => void;
@@ -22,15 +22,11 @@ export const defaultTenant: TenantSchema = {
 
 const tenantDetailsStore = (set: TSet): TenantDetails => ({
   tenants: [defaultTenant],
-  updateForm: (index: number, tenant: Partial<TenantSchema>) =>
-    set((prev) => {
-      const newTenants = [...prev.tenantDetails.tenants];
-      newTenants[index] = { ...newTenants[index], ...tenant };
-      return {
-        ...prev,
-        tenantDetails: { ...prev.tenantDetails, tenants: newTenants },
-      };
-    }),
+  updateForm: (tenants: TenantSchema[]) =>
+    set((prev) => ({
+      ...prev,
+      tenantDetails: { ...prev.tenantDetails, tenants },
+    })),
   reset: () =>
     set((prev) => ({
       ...prev,

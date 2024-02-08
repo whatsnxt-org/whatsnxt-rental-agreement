@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useLandlordDetails,
+  useBasicDetails,
   usePropertyDetails,
   useSteps,
 } from "@/hooks/use-store-hooks";
@@ -10,15 +10,12 @@ import DetailsWidget from "./details-widget";
 
 const PropertyDetailsWidget = () => {
   const { setStep } = useSteps();
-  const {
-    address: _address,
-    space,
-    floor,
-    sameLandlordAddress,
-  } = usePropertyDetails();
-  const { landlords } = useLandlordDetails();
-  const landlordAddress = landlords[0].permenantAddress;
-  const address = sameLandlordAddress ? landlordAddress : _address;
+  const { address, space, floor, houseNo, locality, pincode } =
+    usePropertyDetails();
+  const { state, city } = useBasicDetails();
+  const fullAddress = `${houseNo}, ${address}, ${locality}, ${city}, ${state} ${
+    pincode !== "" ? `- ${pincode}` : ""
+  }`;
   return (
     <DetailsWidget
       icon={<IoLocateOutline className="w-5 h-5" />}
@@ -26,7 +23,9 @@ const PropertyDetailsWidget = () => {
       onChange={() => setStep(3)}
     >
       <div className="flex flex-col gap-2 text-muted-foreground text-xs font-semibold">
-        <span className="text-foreground text-base capitalize">{address}</span>
+        <span className="text-foreground text-base capitalize">
+          {fullAddress}
+        </span>
 
         <span className="whitespace-break-spaces">
           {`Floor No. ${floor}   *   ${space}`}

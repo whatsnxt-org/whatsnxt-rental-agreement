@@ -65,8 +65,12 @@ const BasicDetails = () => {
     if (rentType === RentType.Agent) return;
 
     if (rentType === RentType.Tenant) {
+      const restTenants = [...tenants];
       const mainTenant = tenants[0];
-      updateTenants(0, {
+      restTenants.splice(0, 1);
+
+      const updatedtenant = {
+        ...mainTenant,
         fullname: isEmptyString(mainTenant.fullname)
           ? fullname
           : mainTenant.fullname,
@@ -74,13 +78,18 @@ const BasicDetails = () => {
         phoneNo: isEmptyString(mainTenant.phoneNo)
           ? phoneNo
           : mainTenant.phoneNo,
-      });
+      };
+
+      updateTenants([updatedtenant, ...restTenants]);
     }
 
     if (rentType === RentType.LandLord) {
+      const restLandlords = [...landlords];
       const mainLandlord = landlords[0];
+      restLandlords.splice(0, 1);
 
-      updateLandlords(0, {
+      const updatedLandlord = {
+        ...mainLandlord,
         fullname: isEmptyString(mainLandlord.fullname)
           ? fullname
           : mainLandlord.fullname,
@@ -88,10 +97,11 @@ const BasicDetails = () => {
         phoneNo: isEmptyString(mainLandlord.phoneNo)
           ? phoneNo
           : mainLandlord.phoneNo,
-      });
+      };
+
+      updateLandlords([updatedLandlord, ...restLandlords]);
     }
   };
-
   const onSubmit = (data: BasicDetailsSchema) => {
     updateLandlordAndTenant();
     basicDetails.updateForm(data);
@@ -101,7 +111,6 @@ const BasicDetails = () => {
   // Reset the form on changing rent type
   useEffect(() => {
     if (currentRentType !== basicDetails.type) {
-      console.log("rent type changed");
       resetLandlords();
       resetTenants();
     }

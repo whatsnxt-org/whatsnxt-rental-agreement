@@ -9,32 +9,39 @@ import { FormInput } from "@/components/ui/form-input";
 import { stepsData } from "@/constants/steps-data";
 import { useLandlordDetails, useSteps } from "@/hooks/use-store-hooks";
 import {
-  LandLordSchema,
   LandlordsSchema,
-  landlordSchema,
   landlordsSchema,
 } from "@/lib/validations/landlord-details-schema";
+import { defaultLandlord } from "@/store/landlord-details-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-import { useEffect } from "react";
-import { FieldError, FieldErrorsImpl, Merge, useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 
 const LandLordDetails = () => {
   const { currentStep, nextStep, prevStep } = useSteps();
-  const { landlords, addOwner } = useLandlordDetails();
+  const { landlords: storeLandlords, updateForm } = useLandlordDetails();
 
   const form = useForm<LandlordsSchema>({
     resolver: zodResolver(landlordsSchema),
-    defaultValues: { landlords },
+    defaultValues: { landlords: storeLandlords },
   });
 
-  useEffect(() => {
-    form.setValue("landlords", landlords);
-  }, [landlords]);
+  const landlords = form.watch("landlords");
+
+  const handleSubmit = ({ landlords }: LandlordsSchema) => {
+    updateForm(landlords);
+    nextStep();
+  };
+
+  const handleRemove = (index: number) => {
+    const newLandlordsArr = [...form.getValues("landlords")];
+    newLandlordsArr.splice(index, 1);
+    form.setValue("landlords", newLandlordsArr);
+  };
 
   return (
-    <>
-      <div className="h-full">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full">
         <FormHeader>
           <FormTitle
             currentStep={currentStep + 1}
@@ -51,8 +58,9 @@ const LandLordDetails = () => {
             {landlords.map((_, i) => (
               <div key={i}>
                 <LandlordForm
+                  control={form.control}
                   index={i}
-                  errors={form.formState.errors?.landlords?.[i]}
+                  onRemove={handleRemove}
                 />
               </div>
             ))}
@@ -63,7 +71,12 @@ const LandLordDetails = () => {
               variant={"ghost"}
               type="button"
               className="text-wnr-purple rounded-none hover:bg-inherit focus-visible:bg-inherit hover:text-wnr-purple focus-visible:text-wnr-purple p-0 flex items-center"
-              onClick={() => addOwner()}
+              onClick={() =>
+                form.setValue("landlords", [
+                  ...form.getValues("landlords"),
+                  { ...defaultLandlord },
+                ])
+              }
             >
               <Plus className="w-3 h-3" strokeWidth={3} />
               <span>Add Co-owner</span>
@@ -73,58 +86,25 @@ const LandLordDetails = () => {
 
         <FormAction>
           <div className="px-6 lg:px-0">
-            <Button
-              type="button"
-              size={"lg"}
-              className="w-full"
-              onClick={form.handleSubmit(nextStep)}
-            >
+            <Button type="submit" size={"lg"} className="w-full">
               Next, Add Tenant Details
             </Button>
           </div>
         </FormAction>
-      </div>
-    </>
+      </form>
+    </Form>
   );
 };
 
-type LandlordFormError = Merge<FieldError, FieldErrorsImpl<LandLordSchema>>;
 const LandlordForm = ({
   index,
-  errors,
+  control,
+  onRemove,
 }: {
   index: number;
-  errors?: LandlordFormError;
+  control: Control<LandlordsSchema, any>;
+  onRemove: (index: number) => void;
 }) => {
-  const { landlords, updateForm, removeOwner } = useLandlordDetails();
-  const landlord = landlords[index];
-
-  const form = useForm<LandLordSchema>({
-    resolver: zodResolver(landlordSchema),
-    defaultValues: landlord,
-    mode: "onChange",
-  });
-
-  // setting errors when submitting
-  useEffect(() => {
-    if (errors) {
-      Object.keys(errors).map((key) =>
-        form.setError(key as keyof LandLordSchema, {
-          message: errors?.[key as keyof LandLordSchema]?.message,
-        })
-      );
-    }
-  }, [errors]);
-
-  useEffect(() => {
-    form.setValue("fullname", landlord.fullname);
-    form.setValue("email", landlord.email);
-    form.setValue("panNo", landlord.panNo);
-    form.setValue("parentName", landlord.parentName);
-    form.setValue("permenantAddress", landlord.permenantAddress);
-    form.setValue("phoneNo", landlord.phoneNo);
-  }, [landlords]);
-
   return (
     <>
       {index !== 0 && (
@@ -132,61 +112,51 @@ const LandlordForm = ({
           <span className="text-sm">{`Landlord ${index + 1}`}</span>
           <span
             className="text-sm text-wnr-purple cursor-pointer"
-            onClick={() => removeOwner(index)}
+            onClick={() => onRemove(index)}
           >
             Remove
           </span>
         </div>
       )}
       <div className="px-6 py-2 rounded-lg border">
-        <Form {...form}>
-          <form className="space-y-2">
-            <FormInput
-              control={form.control}
-              name="fullname"
-              placeholder="Full Name"
-              onChange={(value) => updateForm(index, { fullname: value })}
-            />
+        <div className="space-y-2">
+          <FormInput
+            control={control}
+            name={`landlords.${index}.fullname`}
+            placeholder="Full Name"
+          />
 
-            <FormInput
-              control={form.control}
-              name="parentName"
-              placeholder="Father/Mother Name"
-              onChange={(value) => updateForm(index, { parentName: value })}
-            />
+          <FormInput
+            control={control}
+            name={`landlords.${index}.parentName`}
+            placeholder="Father/Mother Name"
+          />
 
-            <FormInput
-              control={form.control}
-              name="phoneNo"
-              placeholder="Phone Number"
-              onChange={(value) => updateForm(index, { phoneNo: value })}
-            />
+          <FormInput
+            control={control}
+            name={`landlords.${index}.phoneNo`}
+            placeholder="Phone Number"
+          />
 
-            <FormInput
-              control={form.control}
-              name="email"
-              placeholder="Email"
-              type="email"
-              onChange={(value) => updateForm(index, { email: value })}
-            />
+          <FormInput
+            control={control}
+            name={`landlords.${index}.email`}
+            placeholder="Email"
+            type="email"
+          />
 
-            <FormInput
-              control={form.control}
-              name="permenantAddress"
-              placeholder="Permenant Address"
-              onChange={(value) =>
-                updateForm(index, { permenantAddress: value })
-              }
-            />
+          <FormInput
+            control={control}
+            name={`landlords.${index}.permenantAddress`}
+            placeholder="Permenant Address"
+          />
 
-            <FormInput
-              control={form.control}
-              name="panNo"
-              placeholder="Pan No. (optional)"
-              onChange={(value) => updateForm(index, { panNo: value })}
-            />
-          </form>
-        </Form>
+          <FormInput
+            control={control}
+            name={`landlords.${index}.panNo`}
+            placeholder="Pan No. (optional)"
+          />
+        </div>
       </div>
     </>
   );
