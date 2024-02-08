@@ -3,12 +3,20 @@
 import { TSet } from "./form-store";
 
 export type ItemsList = {
-  fans: number;
-  light: number;
-  bed: number;
-  table: number;
-  chair: number;
+  Fans: number;
+  "Light bulb / tube": number;
+  Bed: number;
+  Table: number;
+  Chair: number;
+  Sofa: number;
+  AC: number;
+  Geyser: number;
+  Fridge: number;
+  Oven: number;
+  Stove: number;
   TV: number;
+  "Washing Machine": number;
+  "Dining Table": number;
 };
 
 export type ItemsListStore = {
@@ -21,12 +29,20 @@ export type Items = Record<keyof ItemsList, number>;
 
 // TODO: add extra fields
 export const defaultItemsList: Items = {
-  fans: 0,
-  light: 0,
-  bed: 0,
-  table: 0,
-  chair: 0,
+  Fans: 0,
+  "Light bulb / tube": 0,
+  Bed: 0,
+  Table: 0,
+  Chair: 0,
+  Sofa: 0,
+  AC: 0,
+  Geyser: 0,
+  Fridge: 0,
+  Oven: 0,
+  Stove: 0,
   TV: 0,
+  "Washing Machine": 0,
+  "Dining Table": 0,
 };
 
 export const itemsListStore = (set: TSet) => ({

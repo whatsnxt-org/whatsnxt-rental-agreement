@@ -14,5 +14,6 @@ export const useItemsList = () => useStore((state) => state.itemsList);
 export const usePhotocopy = () =>
   useStore((state) => ({
     photocopy: state.photocopy,
+    photocopyValue: state.photoCopyValue,
     updatePhotocopy: state.updatePhotocopy,
   }));
