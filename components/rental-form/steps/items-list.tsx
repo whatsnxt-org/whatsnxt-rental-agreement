@@ -6,20 +6,30 @@ import { stepsData } from "@/constants/steps-data";
 import FormScrollableArea from "@/components/rental-form/form-scrollable-area";
 import FormAction from "@/components/rental-form/form-action";
 import { Button } from "@/components/ui/button";
-import { ItemsList, defaultItemsList } from "@/store/items-list-store";
+// import { ItemsList } from "@/store/items-list-store";
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Minus, Plus } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Minus,
+  Plus,
+  StretchHorizontal,
+} from "lucide-react";
+import { defaultItemListIcons } from "@/constants/default-items-list";
+import AddItemModal from "../modals/add-item-modal";
 
-const itemsListFields = Object.keys(defaultItemsList) as (keyof ItemsList)[];
+// const itemsListFields = Object.keys(defaultItemsList) as (keyof ItemsList)[];
 
 const ItemsList = () => {
-  const defaultFieldsCountToShow = 4; // counts from 0, i.e 5 items to be shown
-  const extraFieldsCount =
-    itemsListFields.length - defaultFieldsCountToShow - 1;
-
   const { currentStep, prevStep, nextStep } = useSteps();
   const { items, decrement, increment } = useItemsList();
   const [showAllFields, setShowAllFields] = useState(false);
+  const [openAddItemModal, setOpenAddItemModal] = useState(false);
+  const itemsListFields = Object.keys(items);
+
+  const defaultFieldsCountToShow = 4; // counts from 0, i.e 5 items to be shown
+  const extraFieldsCount =
+    itemsListFields.length - defaultFieldsCountToShow - 1;
 
   return (
     <div className="h-full">
@@ -46,9 +56,16 @@ const ItemsList = () => {
                 key={field}
                 className="flex items-center justify-between gap-4"
               >
-                <span className="capitalize font-semibold text-secondary-foreground">
-                  {field}
-                </span>
+                <div className="flex items-center gap-4">
+                  <div className="w-4 h-4 grid place-content-center">
+                    {defaultItemListIcons[field] ?? (
+                      <StretchHorizontal className="w-4 h-4" />
+                    )}
+                  </div>
+                  <span className="capitalize font-semibold text-secondary-foreground">
+                    {field}
+                  </span>
+                </div>
                 <Counter
                   value={items[field]}
                   onIncrement={() => increment(field)}
@@ -70,6 +87,22 @@ const ItemsList = () => {
               </div>
               <ChevronDown className="w-4 h-4" />
             </div>
+          )}
+
+          {showAllFields && (
+            <>
+              <AddItemModal
+                isOpen={openAddItemModal}
+                onOpenChange={setOpenAddItemModal}
+              />
+              <span
+                className="flex items-center text-wnr-purple text-sm font-semibold cursor-pointer"
+                onClick={() => setOpenAddItemModal(true)}
+              >
+                <Plus className="w-3 h-3" strokeWidth={3} />
+                Add Item
+              </span>
+            </>
           )}
 
           {/* // show less */}
