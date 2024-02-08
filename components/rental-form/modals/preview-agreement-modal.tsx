@@ -18,7 +18,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useStore } from "@/hooks/use-store-hooks";
 import useScreen from "@/hooks/useScreen";
-import { ItemsList } from "@/store/items-list-store";
 import { addMonths, format } from "date-fns";
 import Image from "next/image";
 import { ReactNode } from "react";
@@ -37,16 +36,13 @@ const DesktopModal = ({ isOpen, onOpenChange }: PreviewAgreementModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="px-0 max-w-[425px] lg:max-w-xl h-[90%]">
-        <ScrollArea className="pb-6 mt-3 px-4 h-[100%] overflow-y-hidden">
+        <ScrollArea className="pb-6 mt-3 px-6 h-[100%] overflow-y-hidden">
           <DialogHeader>
             <DialogTitle className="text-center text-3xl">
               Agreement Preview
             </DialogTitle>
             <div className="space-y-4">
               <AgreementModalContent />
-              {/* <Button className="w-full" onClick={() => onOpenChange(false)}>
-                Back to Summary
-              </Button> */}
             </div>
           </DialogHeader>
         </ScrollArea>
@@ -169,10 +165,17 @@ const AgreementModalContent = () => {
         <HighlightedSpan>{format(new Date(), "MMMM yyyy")}</HighlightedSpan>
       </p>
 
-      <br />
       <p className="text-center">Between</p>
-      <br />
-      <p>
+      {landlordDetails.landlords.map((landlord, i) => (
+        <p key={`agreement-landlords-${i}`}>
+          Mr./Mrs.
+          <HighlightedSpan>{landlord.fullname}</HighlightedSpan>
+          So/Do Mr
+          <HighlightedSpan>{landlord.parentName}</HighlightedSpan>
+          (Hereinafter called the Lessor No. 1 and/ or the First Party)
+        </p>
+      ))}
+      {/* <p>
         Mr./Mrs.
         <HighlightedSpan>
           {landlordDetails.landlords[0].fullname}
@@ -182,23 +185,26 @@ const AgreementModalContent = () => {
           {landlordDetails.landlords[0].parentName}
         </HighlightedSpan>
         (Hereinafter called the Lessor No. 1 and/ or the First Party)
-      </p>
-
-      <br />
+      </p> */}
 
       <p className="text-center">And</p>
 
-      <br />
-
-      <p>
+      {tenantDetails.tenants.map((tenant, i) => (
+        <p key={`agreement-tenants-${i}`}>
+          Mr./Mrs.
+          <HighlightedSpan>{tenant.fullname}</HighlightedSpan>
+          So/Do Mr
+          <HighlightedSpan>{tenant.parentName}</HighlightedSpan>
+          (Hereinafter called the Second Party)
+        </p>
+      ))}
+      {/* <p>
         Mr./Mrs.
-        <HighlightedSpan>{tenantDetails.tenants[0].fullname}</HighlightedSpan>
+        <HighlightedSpan>{tenant.fullname}</HighlightedSpan>
         So/Do Mr
-        <HighlightedSpan>{tenantDetails.tenants[0].parentName}</HighlightedSpan>
+        <HighlightedSpan>{tenant.parentName}</HighlightedSpan>
         (Hereinafter called the Second Party)
-      </p>
-
-      <br />
+      </p> */}
 
       <p>
         Whereas the Lessor(s) are jointly the lawful owners in possession of the
