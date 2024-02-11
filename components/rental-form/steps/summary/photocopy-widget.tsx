@@ -2,17 +2,34 @@
 
 import { Info } from "lucide-react";
 import { SlEnvolopeLetter } from "react-icons/sl";
+import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { usePhotocopy } from "@/hooks/use-store-hooks";
 import PhotocopyModal from "../../modals/photocopy-modal";
-import { useState } from "react";
+import { ComponentRef, useRef, useState } from "react";
+import { AgreementModalContent } from "@/components/rental-form/modals/preview-agreement-modal";
 
 const PhotocopyWidget = () => {
+  const printRef = useRef<ComponentRef<"div">>(null);
   const { photocopy, updatePhotocopy } = usePhotocopy();
   const [openModal, setOpenModal] = useState(false);
+
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    pageStyle: "p-12",
+    suppressErrors: true,
+    documentTitle: "agreement.pdf",
+    copyStyles: true,
+  });
+
   return (
     <>
+      <div className="hidden p-12">
+        <div ref={printRef}>
+          <AgreementModalContent />
+        </div>
+      </div>
       <PhotocopyModal isOpen={openModal} onOpenChange={setOpenModal} />
       <div className="bg-wnr-purple/15 rounded-lg">
         <div className="p-4 pb-2">
@@ -36,7 +53,6 @@ const PhotocopyWidget = () => {
                       ? updatePhotocopy({ state: false, value: 0 })
                       : setOpenModal(true)
                   }
-                  // onCheckedChange={(v) => updatePhotocopy(!!v)}
                 />
               </div>
               <p className="text-muted-foreground text-sm">
@@ -46,7 +62,7 @@ const PhotocopyWidget = () => {
             </div>
           </div>
         </div>
-        <Button className="w-full rounded-lg" size={"lg"}>
+        <Button className="w-full rounded-lg" size={"lg"} onClick={handlePrint}>
           Confirm Details & Pay {photocopy ? "₹949" : "₹699"}
         </Button>
       </div>

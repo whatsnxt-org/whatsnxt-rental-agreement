@@ -77,7 +77,7 @@ const HighlightedSpan = ({ children }: { children: ReactNode }) => (
   </span>
 );
 
-const AgreementModalContent = () => {
+export const AgreementModalContent = () => {
   const {
     basicDetails,
     propertyDetails,
