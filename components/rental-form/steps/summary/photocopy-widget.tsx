@@ -17,7 +17,6 @@ const PhotocopyWidget = () => {
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-    pageStyle: "p-12",
     suppressErrors: true,
     documentTitle: "agreement.pdf",
     copyStyles: true,
