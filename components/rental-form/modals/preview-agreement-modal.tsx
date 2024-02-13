@@ -91,7 +91,7 @@ export const AgreementModalContent = () => {
   const agreementStartDate = format(contractDetails.startDate, "d/m/yyyy");
   const chosenItemsList = Object.entries(items).filter((entry) => entry[1] > 0);
   return (
-    <div className="pb-6 space-y-6 text-sm leading-6 text-balance">
+    <div className="pb-6 space-y-6 text-sm leading-6 print:text-justify">
       <Image src={rupeeImg} alt="Rupee" className="h-[250px] w-full" />
       <h2 className="font-semibold underline underline-offset-4 text-center text-base">
         LEASE DEAD
@@ -99,13 +99,13 @@ export const AgreementModalContent = () => {
 
       <ol className="list-decimal ps-6 space-y-2">
         <li>
-          <p className="text-balance">
+          <p className="print:text-justify">
             Property Address:
             <HighlightedSpan>{propertyAddress}</HighlightedSpan>
           </p>
         </li>
         <li>
-          <p className="text-balance">
+          <p className="print:text-justify">
             Rent: Rs
             <HighlightedSpan>${contractDetails.monthlyRent}</HighlightedSpan>
             per month from
@@ -115,7 +115,7 @@ export const AgreementModalContent = () => {
           </p>
         </li>
         <li>
-          <p className="text-balance">
+          <p className="print:text-justify">
             Period of Lease: Eleven (11) months (
             <HighlightedSpan>
               {format(contractDetails.startDate, "d/m/yyyy")}
@@ -129,7 +129,7 @@ export const AgreementModalContent = () => {
         </li>
 
         <li>
-          <p className="text-balance">
+          <p className="print:text-justify">
             Security Amount: Rs
             <HighlightedSpan>{contractDetails.securityAmount}</HighlightedSpan>
           </p>
@@ -137,7 +137,7 @@ export const AgreementModalContent = () => {
 
         {contractDetails.tenantCharges && (
           <li>
-            <p className="text-balance">
+            <p className="print:text-justify">
               Electricity/Water Charges: As per Meters payable as per the
               billing cycle paid by Lessee before the due dates.
             </p>
@@ -146,7 +146,7 @@ export const AgreementModalContent = () => {
 
         {contractDetails.increaseRent && (
           <li>
-            <p className="text-balance">
+            <p className="print:text-justify">
               Escalation after expiry:
               <HighlightedSpan>
                 {`${contractDetails.increaseRentPercentage}%`}
